@@ -1,0 +1,22 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "orientable",
+        "textures": {
+            "top": "someusefulthings:blocks/remove_enchantment_side",
+            "side": "someusefulthings:blocks/remove_enchantment_side",
+            "front": "someusefulthings:blocks/fast_furnace"
+        }
+    },
+    "variants": {
+        "inventory": [{
+             "textures": { "front": "someusefulthings:blocks/fast_furnace" }
+        }],
+        "facing": {
+            "east": { "y": 90, "uvlock": true },
+            "north": {},
+            "south": { "y": 180, "uvlock": true },
+            "west": { "y": 270, "uvlock": true }
+        }
+    }
+}

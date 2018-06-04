@@ -1,0 +1,20 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all",
+        "textures": {
+            "all": "someusefulthings:blocks/green_house"
+        }
+    },
+    "variants": {
+        "inventory": [{
+             "textures": { "all": "someusefulthings:blocks/green_house" }
+        }],
+        "normal":{
+            "model": "cube_all",
+            "textures": {
+                "all": "someusefulthings:blocks/green_house"
+            }
+        }
+    }
+}

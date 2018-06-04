@@ -1,0 +1,20 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all",
+        "textures": {
+            "all": "someusefulthings:blocks/cobble_stone_maker"
+        }
+    },
+    "variants": {
+        "inventory": [{
+             "textures": { "all": "someusefulthings:blocks/cobble_stone_maker" }
+        }],
+        "normal":{
+            "model": "cube_all",
+            "textures": {
+                "all": "someusefulthings:blocks/cobble_stone_maker"
+            }
+        }
+    }
+}

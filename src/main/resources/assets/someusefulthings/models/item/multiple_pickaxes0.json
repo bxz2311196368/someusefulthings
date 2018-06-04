@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "someusefulthings:items/multiple_pickaxes0"
+  }
+}

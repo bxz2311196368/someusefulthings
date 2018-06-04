@@ -1,0 +1,130 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
+
+
+version = "1.0"
+group= "com.bxzmod.someusefulthings" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "bxzmod-someusefulthings"
+
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+repositories {
+  maven { url "http://dvs1.progwml6.com/files/maven" } //JEI, Natura, Mantle, TiCon
+  maven { url "http://tehnut.info/maven" } //Hwyla Maven
+  maven { url 'https://maven.mcmoddev.com'} //many mods
+  maven { url 'http://maven.blamejared.com'} //CraftTweaker,ImmersiveEngineering
+  maven { url 'https://minecraft.curseforge.com/api/maven/'}
+  maven { url "http://maven.amadornes.com/"} //MCMultipart
+  maven { url "https://maven.chaosfield.at"} //AA Maven
+  maven { url = "http://maven.covers1624.net"} //CoFH
+  maven { url "https://dl.bintray.com/raoulvdberge/dev/"} //Refined Storage
+  maven { url = "http://maven.ic2.player.to/"} //ic2
+  maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+  maven { url = "http://jenkins.k-4u.nl/view/McJty/job/Compatlayer%201.10/"} //compatlayer
+  maven { //EnderIO, EnderCore, EnderZoo, The One Probe, Chisel
+        name 'tterrag maven'
+        url "https://maven.tterrag.com/"
+    }
+    maven { // McJtyLib
+        url "http://maven.k-4u.nl"
+    }
+	maven {
+    // url of the maven that hosts Harvest Festival files
+    url "http://girafi.dk/maven/"
+  }
+}
+
+minecraft {
+    version = "${forge_version}"
+    runDir = "run"
+    mappings = "${mappings_version}"
+    
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not allways work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+}
+
+dependencies {
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+	//deobfCompile "journeymap:journeymap:1.10.2:${version_journeymap}"
+	//deobfCompile "mezz.jei:jei_1.10.2:+"
+	//deobfCompile "mcp.mobius.waila:Hwyla:1.8.17-B31_1.10.2"
+	//deobfCompile "de.ellpeck.actuallyadditions:ActuallyAdditions:1.10.2-r+"
+	//deobfCompile "codechicken:CodeChickenLib:1.10.2-2+:universal"
+	//deobfCompile "cofh:CoFHCore:1.10.2-4.1.12.17:universal"
+	//deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.19-61"
+	//deobfCompile ("com.github.mcjty:compatlayer:1.10-0.3.1"){
+    //   transitive = false
+   //}
+	//compile "com.enderio.core:EnderCore:1.10.2-0.4.1.66-beta:dev"
+	//compile "com.enderio:EnderIO:1.10.2-3.1.193:dev"
+	//deobfCompile "uk.joshiejack.harvest:harvest_festival_${mc_version}:${mc_version}-${hf_version}"
+	//deobfCompile "net.industrial-craft:industrialcraft-2:2.6.252-ex110"
+    //deobfCompile "blusunrize:ImmersiveEngineering:0.10-+:deobf"
+	//deobfCompile "slimeknights.mantle:Mantle:1.10.2-1.1.5.207"
+    //deobfCompile "slimeknights:TConstruct:1.10.2-2.6.5.11"
+	//deobfCompile "MCMultiPart:MCMultiPart:1.4.0:universal"
+	//compile "net.darkhax.tesla:Tesla-1.10.2-1.2.1.50:deobf"
+	//deobfCompile "cofh:ThermalFoundation:1.10.2-2.1.5.12:universal"
+    //deobfCompile "cofh:ThermalExpansion:1.10.2-5.1.10.28:universal"
+	//deobfCompile "MineTweaker3:MineTweaker3-MC1102-Main:1.10.2-3.0.26.113"
+}
+jar {
+    manifest {
+       attributes 'FMLAT': 'someusefulthings_at.cfg'
+       attributes 'FMLCorePlugin': 'com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin'
+       attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+task deobfJar(type: Jar) {
+        from sourceSets.main.output
+        appendix = 'deobf'
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allJava
+	appendix = 'source'
+}
+ 
+artifacts {
+        archives deobfJar
+}

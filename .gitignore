@@ -1,0 +1,34 @@
+/bin/
+/build/
+/eclipse/
+/gradle/
+/out/
+/run/
+/runServer/
+/1.bat
+/2.bat
+/3.bat
+/CREDITS-fml.txt
+/LICENSE-new.txt
+/MinecraftForge-Credits.txt
+/Paulscode IBXM Library License.txt
+/Paulscode SoundSystem CodecIBXM License.txt
+/README.txt
+/cmd.exe
+/forge-1.10.2-12.18.3.2281-changelog.txt
+/gradlew
+/src.rar
+/1.10.2-bxzmod.iml
+/1.10.2-bxzmod.ipr
+/1.10.2-bxzmod.iws
+/1.10.2-bxzmod_Client.launch
+/1.10.2-bxzmod_Server.launch
+/1.10.2-bxzmod_api.iml
+/1.10.2-bxzmod_main.iml
+/1.10.2-bxzmod_test.iml
+/.classpath
+/.editorconfig
+/.project
+/gradle.properties
+/idea.bat
+/idearun.bat

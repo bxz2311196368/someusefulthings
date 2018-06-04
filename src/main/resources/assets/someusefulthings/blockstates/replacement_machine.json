@@ -1,0 +1,18 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all",
+        "textures": {
+            "all": "someusefulthings:blocks/replacement_machine_off"
+        }
+    },
+    "variants": {
+        "inventory": [{
+             "textures": { "all": "someusefulthings:blocks/replacement_machine_on" }
+        }],
+        "work": {
+            "true": { "textures": { "all": "someusefulthings:blocks/replacement_machine_on" } },
+            "false": { "textures": { "all": "someusefulthings:blocks/replacement_machine_off" } }
+        }
+    }
+}

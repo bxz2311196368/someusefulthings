@@ -1,0 +1,16 @@
+[
+{
+  "modid": "someusefulthings",
+  "name": "Some useful things",
+  "description": "Something I want.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["BXZ"],
+  "credits": ".",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

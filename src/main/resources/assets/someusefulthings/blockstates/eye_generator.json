@@ -1,0 +1,18 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all",
+        "textures": {
+            "all": "someusefulthings:blocks/eye_generator_off"
+        }
+    },
+    "variants": {
+        "inventory": [{
+             "textures": { "all": "someusefulthings:blocks/eye_generator_on" }
+        }],
+        "work": {
+            "true": { "textures": { "all": "someusefulthings:blocks/eye_generator_on" } },
+            "false": { "textures": { "all": "someusefulthings:blocks/eye_generator_off" } }
+        }
+    }
+}
