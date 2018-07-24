@@ -9,7 +9,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -46,7 +45,6 @@ public abstract class BaseBlockContainer extends BlockContainer
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te,
 		ItemStack stack)
 	{
-		player.addStat(StatList.getBlockStats(this));
 		player.addExhaustion(0.025F);
 		if (te instanceof TileEntityBase)
 		{
