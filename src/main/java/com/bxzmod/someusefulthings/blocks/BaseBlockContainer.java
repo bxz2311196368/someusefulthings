@@ -1,6 +1,5 @@
 package com.bxzmod.someusefulthings.blocks;
 
-import com.bxzmod.someusefulthings.blocks.property.BlockPropertys;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.tileentity.TileEntityBase;
 import net.minecraft.block.BlockContainer;
@@ -12,13 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.IExtendedBlockState;
 
 public abstract class BaseBlockContainer extends BlockContainer
 {
