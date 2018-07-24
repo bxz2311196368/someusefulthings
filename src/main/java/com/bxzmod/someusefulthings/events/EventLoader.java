@@ -3,7 +3,7 @@ package com.bxzmod.someusefulthings.events;
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
 import com.bxzmod.someusefulthings.Helper;
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.TicketManager;
 import com.bxzmod.someusefulthings.achievement.AchievementLoader;
 import com.bxzmod.someusefulthings.capability.*;
@@ -48,10 +48,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -127,9 +127,9 @@ public class EventLoader
 			ICapabilitySerializable<NBTTagCompound> provider_backpack = new PortableInventory.ProviderPlayer();
 			ICapabilitySerializable<NBTTagCompound> provider_garbag = new GarbagBagCP.ProviderPlayer();
 			ICapabilitySerializable<NBTTagCompound> provider_tpList = new TPLocation.ProviderPlayer();
-			event.addCapability(new ResourceLocation(Info.MODID + ":" + "portable_inventory"), provider_backpack);
-			event.addCapability(new ResourceLocation(Info.MODID + ":" + "garbag_bag"), provider_garbag);
-			event.addCapability(new ResourceLocation(Info.MODID + ":" + "tp_pos"), provider_tpList);
+			event.addCapability(new ResourceLocation(ModInfo.MODID + ":" + "portable_inventory"), provider_backpack);
+			event.addCapability(new ResourceLocation(ModInfo.MODID + ":" + "garbag_bag"), provider_garbag);
+			event.addCapability(new ResourceLocation(ModInfo.MODID + ":" + "tp_pos"), provider_tpList);
 		}
 	}
 
@@ -425,22 +425,22 @@ public class EventLoader
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onKeyInput(InputEvent.KeyInputEvent event)
+	public void onKeyInput(TickEvent.ClientTickEvent event)
 	{
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		if (KeyLoader.openBackpack.isPressed())
+		if (KeyLoader.openBackpack.isKeyDown())
 		{
 			Helper.sendKey(player, KeyLoader.key_backpack);
 		}
-		if (KeyLoader.openGarbageBag.isPressed())
+		if (KeyLoader.openGarbageBag.isKeyDown())
 		{
 			Helper.sendKey(player, KeyLoader.key_garbage);
 		}
-		if (KeyLoader.openCrafter.isPressed())
+		if (KeyLoader.openCrafter.isKeyDown())
 		{
 			Helper.sendKey(player, KeyLoader.key_crafter);
 		}
-		if (KeyLoader.openTp.isPressed())
+		if (KeyLoader.openTp.isKeyDown())
 		{
 			Helper.sendKey(player, KeyLoader.key_tp);
 		}

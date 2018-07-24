@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.gui;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiButtonBackPack extends GuiButton
 {
 	public static final ResourceLocation TEXTURES = new ResourceLocation(
-			Info.MODID + ":" + "textures/gui/container/button.png");
+		ModInfo.MODID + ":" + "textures/gui/container/button.png");
 
 	public GuiButtonBackPack(int buttonId, int x, int y, String buttonText)
 	{

@@ -1,27 +1,36 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "cube_bottom_top",
-        "textures": {
-            "top": "someusefulthings:blocks/craft_table_top",
-            "bottom": "someusefulthings:blocks/craft_table_bottom",
-            "side": "someusefulthings:blocks/craft_table_side"
-        }
-    },
-    "variants": {
-        "inventory": [{
-            "textures": { 
-                "top": "someusefulthings:blocks/craft_table_top",
-                "bottom": "someusefulthings:blocks/craft_table_bottom",
-                "side": "someusefulthings:blocks/craft_table_side" }
-        }],
-        "normal":{
-            "model": "cube_bottom_top",
-            "textures": {
-                "top": "someusefulthings:blocks/craft_table_top",
-                "bottom": "someusefulthings:blocks/craft_table_bottom",
-                "side": "someusefulthings:blocks/craft_table_side"
-            }
-        }
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_bottom_top",
+    "textures": {
+      "top": "someusefulthings:blocks/craft_table_top",
+      "bottom": "someusefulthings:blocks/craft_table_bottom",
+      "side": "someusefulthings:blocks/craft_table_side"
     }
+  },
+  "variants": {
+    "inventory": [
+      {}
+    ],
+    "normal": [
+      {
+        "textures": {
+          "in": "someusefulthings:blocks/in",
+          "out": "someusefulthings:blocks/out",
+          "all": "someusefulthings:blocks/all"
+        },
+        "submodel": {
+          "input": {
+            "model": "someusefulthings:block_io_in"
+          },
+          "output": {
+            "model": "someusefulthings:block_io_out"
+          },
+          "all": {
+            "model": "someusefulthings:block_io_all"
+          }
+        }
+      }
+    ]
+  }
 }

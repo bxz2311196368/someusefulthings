@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.fluid;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -32,7 +32,7 @@ public class FluidRenderLoader
 	@SideOnly(Side.CLIENT)
 	public static void registerFluidRender(BlockFluidBase blockFluid, String blockStateName)
 	{
-		final String location = Info.MODID + ":" + blockStateName;
+		final String location = ModInfo.MODID + ":" + blockStateName;
 		final Item itemFluid = Item.getItemFromBlock(blockFluid);
 		ModelLoader.setCustomMeshDefinition(itemFluid, new ItemMeshDefinition()
 		{

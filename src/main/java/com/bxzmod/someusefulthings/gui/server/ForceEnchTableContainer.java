@@ -1,8 +1,8 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
+import com.bxzmod.someusefulthings.tileentity.ForceEnchTableTiltEntity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 
 public class ForceEnchTableContainer extends AbstractContainer
 {
@@ -10,7 +10,7 @@ public class ForceEnchTableContainer extends AbstractContainer
 	protected SlotItemHandlerHelper enchBook;
 	protected SlotItemHandlerHelper itemEnched;
 
-	public ForceEnchTableContainer(EntityPlayer player, TileEntity tileEntity)
+	public ForceEnchTableContainer(EntityPlayer player, ForceEnchTableTiltEntity tileEntity)
 	{
 		super(player, tileEntity, 8, 51);
 

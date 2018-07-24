@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.fluid;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -9,11 +9,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class FluidLoader
 {
 	public static final ResourceLocation wwwwater_still = new ResourceLocation(
-			Info.MODID + ":" + "fluid/wwwwater_still");
+		ModInfo.MODID + ":" + "fluid/wwwwater_still");
 	public static final ResourceLocation wwwwater_flowing = new ResourceLocation(
-			Info.MODID + ":" + "fluid/wwwwater_flow");
-	public static final ResourceLocation xp_still = new ResourceLocation(Info.MODID + ":" + "fluid/xp_still");
-	public static final ResourceLocation xp_flowing = new ResourceLocation(Info.MODID + ":" + "fluid/xp_flow");
+		ModInfo.MODID + ":" + "fluid/wwwwater_flow");
+	public static final ResourceLocation xp_still = new ResourceLocation(ModInfo.MODID + ":" + "fluid/xp_still");
+	public static final ResourceLocation xp_flowing = new ResourceLocation(ModInfo.MODID + ":" + "fluid/xp_flow");
 
 	public static Fluid fluidWwwwwater;
 

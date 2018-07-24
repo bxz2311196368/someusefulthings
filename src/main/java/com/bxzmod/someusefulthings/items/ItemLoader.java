@@ -4,10 +4,14 @@ import com.bxzmod.someusefulthings.items.foods.RedStoneApple;
 import com.bxzmod.someusefulthings.items.tools.ArtifactSword;
 import com.bxzmod.someusefulthings.items.tools.MultiplePickaxes;
 import com.bxzmod.someusefulthings.items.tools.UniversalTool;
+import com.bxzmod.someusefulthings.items.tools.Wrench;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -50,6 +54,7 @@ public class ItemLoader
 			1);
 	public static MultiplePickaxes multiplePickaxes2 = new MultiplePickaxes(5, 1, Item.ToolMaterial.GOLD, EFFECTIVE_ON,
 			2);
+	public static Wrench wrench = new Wrench();
 
 	public ItemLoader(FMLPreInitializationEvent event)
 	{
@@ -67,6 +72,7 @@ public class ItemLoader
 		registerTool(multiplePickaxes0);
 		registerTool(multiplePickaxes1);
 		registerTool(multiplePickaxes2);
+		register(wrench);
 	}
 
 	private static void register(Item item)

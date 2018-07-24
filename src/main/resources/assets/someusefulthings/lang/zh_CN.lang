@@ -47,10 +47,11 @@ tile.craftingTable.name=工作台
 tile.chunkLoader.name=区块加载器
 tile.lavaPump.name=岩浆泵
 tile.xpReservoir.name=经验存储器
-tile.tank.name=液体储罐
+tile.fluidTank.name=液体储罐
 tile.greenHouse.name=温室
 tile.fastFurnace.name=高速熔炉
 tile.mobSummon.name=怪物召唤器
+tile.energyBlock.name=能量立方
 
 //fluid
 fluid.fluidWwwwwater=水水水水
@@ -164,6 +165,7 @@ gui.tp.button.teleport=传送
 gui.tp.button.delete=删除
 gui.tp.button.previous=上一页
 gui.tp.button.next=下一页
+gui.energyBlock.totalEnergy=总能量
 
 //key
 key.bxz.group=实用物品

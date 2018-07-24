@@ -5,6 +5,14 @@
         "transform": "forge:default-item"
     },
   "variants": {
+    "inventory": [
+      {
+        "model": "forge:fluid",
+        "custom": {
+          "fluid": "xpjuice"
+        }
+      }
+    ],
     "fluid": {
       "model": "forge:fluid",
       "custom": { "fluid": "xpjuice" }

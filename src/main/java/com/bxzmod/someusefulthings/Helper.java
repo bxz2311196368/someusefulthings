@@ -1,10 +1,9 @@
 package com.bxzmod.someusefulthings;
 
+import cofh.api.energy.IEnergyContainerItem;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 import com.bxzmod.someusefulthings.network.KeyPressReception;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
-
-import cofh.api.energy.IEnergyContainerItem;
 import ic2.api.item.ElectricItem;
 import mekanism.common.capabilities.Capabilities;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -28,11 +27,7 @@ import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -351,6 +346,8 @@ public class Helper
 
 	public static ItemStack copyStack(ItemStack stack)
 	{
+		if (stack == null)
+			return null;
 		ItemStack copyStack = new ItemStack(stack.getItem(), stack.stackSize, stack.getItemDamage());
 		if (stack.hasTagCompound())
 			copyStack.setTagCompound(stack.getTagCompound());
@@ -359,6 +356,8 @@ public class Helper
 
 	public static ItemStack copyStack(ItemStack stack, int amount)
 	{
+		if (stack == null)
+			return null;
 		ItemStack copyStack = new ItemStack(stack.getItem(), amount, stack.getItemDamage());
 		if (stack.hasTagCompound())
 			copyStack.setTagCompound(stack.getTagCompound());

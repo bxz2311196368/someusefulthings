@@ -93,7 +93,7 @@ public class HFtrade extends CommandBase
 	{
 		if (args.length == 1)
 		{
-			String[] names = server.getPlayerList().getOnlinePlayerNames();
+			String[] names = server.getOnlinePlayerNames();
 			return CommandBase.getListOfStringsMatchingLastWord(args, names);
 		} else if (args.length == 2)
 		{

@@ -1,8 +1,7 @@
 package com.bxzmod.someusefulthings.client;
 
-import java.io.IOException;
-
 import com.bxzmod.someusefulthings.blocks.BlockRenderLoader;
+import com.bxzmod.someusefulthings.blocks.Model.BXZModelLoader;
 import com.bxzmod.someusefulthings.entity.EntityRenderLoader;
 import com.bxzmod.someusefulthings.fluid.FluidRenderLoader;
 import com.bxzmod.someusefulthings.items.ItemRenderLoader;
@@ -13,12 +12,15 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.io.IOException;
+
 public class Client extends Common
 {
 	@Override
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		super.preInit(event);
+		new BXZModelLoader(event);
 		new FluidRenderLoader(event);
 		new ItemRenderLoader(event);
 		new BlockRenderLoader(event);

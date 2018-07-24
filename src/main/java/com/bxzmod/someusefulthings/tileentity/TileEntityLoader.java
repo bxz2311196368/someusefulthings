@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.tileentity;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -31,7 +31,7 @@ public class TileEntityLoader
 
 	public void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
 	{
-		GameRegistry.registerTileEntity(tileEntityClass, Info.MODID + ":" + id);
+		GameRegistry.registerTileEntity(tileEntityClass, ModInfo.MODID + ":" + id);
 	}
 
 }

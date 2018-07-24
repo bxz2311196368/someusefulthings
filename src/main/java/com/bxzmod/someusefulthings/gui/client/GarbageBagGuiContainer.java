@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.gui.client;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.gui.server.GarbageBagContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class GarbageBagGuiContainer extends GuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/PortableInventory.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/PortableInventory.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 	private static final int BUTTON_ENABLE = 0;
 	private GarbageBagContainer gui;

@@ -24,8 +24,7 @@ public class TankBlock extends BaseBlockContainer
 
 	public TankBlock()
 	{
-		this.setUnlocalizedName("tank");
-		this.setRegistryName("tank");
+		super("tank", "fluidTank");
 	}
 
 	@Override

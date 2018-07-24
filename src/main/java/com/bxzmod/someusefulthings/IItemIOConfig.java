@@ -1,12 +1,11 @@
 package com.bxzmod.someusefulthings;
 
-import java.util.HashSet;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.HashSet;
 
 public interface IItemIOConfig<T extends ItemStackHandlerModify> extends IInventory
 {
@@ -38,25 +37,11 @@ public interface IItemIOConfig<T extends ItemStackHandlerModify> extends IInvent
 
 	public void tryInAndOut(World world, BlockPos pos);
 
-	public HashSet<EnumFacing> getInputSides();
-
-	public IItemIOConfig setInputSides(EnumFacing[] sides);
-
-	public HashSet<EnumFacing> getOutputSides();
-
-	public IItemIOConfig setOutputSides(EnumFacing[] sides);
-
-	public IItemIOConfig setInputSide(EnumFacing side);
-
-	public IItemIOConfig setOutputSide(EnumFacing side);
-
-	public IItemIOConfig removeInputSide(EnumFacing side);
-
-	public IItemIOConfig removeOutputSide(EnumFacing side);
-
-	public IItemIOConfig resetAllSide();
-
 	public ItemStack addStackInSlot(int slot, ItemStack stack, boolean simulate);
 
 	public ItemStack removeStackInSlot(int slot, int amount, boolean simulate);
+
+	public IConfigSide setConfigSide(IConfigSide configSide);
+
+	public IConfigSide getConfigSide();
 }

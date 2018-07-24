@@ -25,8 +25,7 @@ public class EyeGenerator extends BaseBlockContainer
 
 	public EyeGenerator()
 	{
-		this.setUnlocalizedName("eyeGenerator");
-		this.setRegistryName("eye_generator");
+		super("eye_generator", "eyeGenerator");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(WORK, false));
 	}
 

@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.gui.client;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.gui.server.ToolSettingContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class ToolSettingGuiContainer extends GuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/ToolSetting.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/ToolSetting.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 
 	private static final Logger LOGGER = LogManager.getLogger();

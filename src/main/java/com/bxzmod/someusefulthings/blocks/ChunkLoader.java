@@ -15,9 +15,7 @@ public class ChunkLoader extends BaseBlockContainer
 
 	public ChunkLoader()
 	{
-		super();
-		this.setUnlocalizedName("chunkLoader");
-		this.setRegistryName("chunk_loader");
+		super("chunk_loader", "chunkLoader");
 	}
 
 	@Override

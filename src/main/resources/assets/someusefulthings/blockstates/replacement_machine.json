@@ -1,18 +1,35 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "someusefulthings:blocks/replacement_machine_off"
-        }
-    },
-    "variants": {
-        "inventory": [{
-             "textures": { "all": "someusefulthings:blocks/replacement_machine_on" }
-        }],
-        "work": {
-            "true": { "textures": { "all": "someusefulthings:blocks/replacement_machine_on" } },
-            "false": { "textures": { "all": "someusefulthings:blocks/replacement_machine_off" } }
-        }
+  "forge_marker": 1,
+  "defaults": {
+    "model": "someusefulthings:block_face",
+    "textures": {
+      "side": "someusefulthings:blocks/common_side",
+      "face": "someusefulthings:blocks/replacement_machine_on"
     }
+  },
+  "variants": {
+    "inventory": [
+      {}
+    ],
+    "normal": [
+      {
+        "textures": {
+          "in": "someusefulthings:blocks/in",
+          "out": "someusefulthings:blocks/out",
+          "all": "someusefulthings:blocks/all"
+        },
+        "submodel": {
+          "input": {
+            "model": "someusefulthings:block_io_in"
+          },
+          "output": {
+            "model": "someusefulthings:block_io_out"
+          },
+          "all": {
+            "model": "someusefulthings:block_io_all"
+          }
+        }
+      }
+    ]
+  }
 }

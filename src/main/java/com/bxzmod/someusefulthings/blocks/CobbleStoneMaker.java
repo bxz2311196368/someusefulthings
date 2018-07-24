@@ -1,43 +1,28 @@
 package com.bxzmod.someusefulthings.blocks;
 
-import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.tileentity.CobbleStoneMakerTiletEntity;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class CobbleStoneMaker extends BlockContainer
+public class CobbleStoneMaker extends BaseBlockContainer
 {
 	public CobbleStoneMaker()
 	{
-		super(Material.GRASS);
-		this.setUnlocalizedName("cobbleStoneMaker");
-		this.setRegistryName("cobble_stone_maker");
-		this.setHardness(2.0F);
-		this.setHarvestLevel("pickaxe", 0);
-		this.setCreativeTab(CreativeTabsLoader.tabsomeusefulthings);
+		super("cobble_stone_maker", "cobbleStoneMaker");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		return new CobbleStoneMakerTiletEntity();
-	}
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state)
-	{
-		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override

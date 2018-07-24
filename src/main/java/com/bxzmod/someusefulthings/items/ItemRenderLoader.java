@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.items;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -32,6 +32,7 @@ public class ItemRenderLoader
 		{
 			registerRenderWithMeta(ItemLoader.portableInventoryItem, i, "portable_inventory_item");
 		}
+		registerRender(ItemLoader.wrench);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -46,7 +47,7 @@ public class ItemRenderLoader
 	@SideOnly(Side.CLIENT)
 	private static void registerRenderWithMeta(Item item, int meta, String name)
 	{
-		ResourceLocation location = new ResourceLocation(Info.MODID,
+		ResourceLocation location = new ResourceLocation(ModInfo.MODID,
 				name + '_' + EnumDyeColor.byMetadata(meta).toString());
 		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(location, "inventory");
 		ModelLoader.setCustomModelResourceLocation(item, meta, itemModelResourceLocation);

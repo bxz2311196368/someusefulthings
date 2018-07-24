@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.achievement;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 import net.minecraft.item.Item;
 import net.minecraft.stats.Achievement;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public class AchievementLoader
 {
-	public static final AchievementPage PAGE = new AchievementPage(Info.MODNAME);
+	public static final AchievementPage PAGE = new AchievementPage(ModInfo.MODNAME);
 
 	public static Achievement kill_creative;
 	public static Achievement build_ring;
@@ -30,7 +30,8 @@ public class AchievementLoader
 	private static Achievement addAchievement(String name, int column, int row, Item item, Achievement parent,
 			boolean isSpecial)
 	{
-		Achievement achievement = new Achievement(Info.MODID + ".achievement." + name, Info.MODID + "." + name, column,
+		Achievement achievement = new Achievement(ModInfo.MODID + ".achievement." + name, ModInfo.MODID + "." + name,
+			column,
 				row, item, parent);
 		PAGE.getAchievements().add(isSpecial ? achievement.setSpecial().registerStat() : achievement.registerStat());
 		return achievement;

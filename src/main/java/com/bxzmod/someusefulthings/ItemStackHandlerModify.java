@@ -1,15 +1,8 @@
 package com.bxzmod.someusefulthings;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.Arrays;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,46 +15,51 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class ItemStackHandlerModify extends ItemStackHandler implements IItemIOConfig<ItemStackHandlerModify>
 {
 	private HashSet<Integer> item_in = Sets.newHashSet(), item_out = Sets.newHashSet();
-	private HashSet<EnumFacing> side_in = Sets.newHashSet(), side_out = Sets.newHashSet();
 	private HashMap<Integer, ILimitSlot> slotCheckerIn = Maps.newHashMap(), slotCheckerOut = Maps.newHashMap();
+	private IConfigSide configSide;
 
 	public ItemStackHandlerModify()
 	{
 		super();
-		this.resetAllItemIO().resetAllSide();
+		this.resetAllItemIO();
 	}
 
 	public ItemStackHandlerModify(int size)
 	{
 		super(size);
-		this.resetAllItemIO().resetAllSide();
+		this.resetAllItemIO();
 	}
 
 	public ItemStackHandlerModify(int in, int out)
 	{
 		super(in + out);
-		this.setAllInputs(this.generateArray(0, in)).setAllOutputs(this.generateArray(in, in + out)).resetAllSide();
+		this.setAllInputs(this.generateArray(0, in)).setAllOutputs(this.generateArray(in, in + out));
 	}
 
 	public ItemStackHandlerModify(int size, int[] in, int[] out)
 	{
 		super(size);
-		this.setAllInputs(in).setAllOutputs(out).resetAllSide();
+		this.setAllInputs(in).setAllOutputs(out);
 	}
 
 	public ItemStackHandlerModify(ItemStack[] stacks)
 	{
 		super(stacks);
-		this.resetAllItemIO().resetAllSide();
+		this.resetAllItemIO();
 	}
 
 	public ItemStackHandlerModify(ItemStack[] stacks, int[] in, int[] out)
 	{
 		super(stacks);
-		this.setAllInputs(in).setAllOutputs(out).resetAllSide();
+		this.setAllInputs(in).setAllOutputs(out);
 	}
 
 	public ItemStack[] getStacks()
@@ -169,10 +167,10 @@ public class ItemStackHandlerModify extends ItemStackHandler implements IItemIOC
 			if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite()))
 			{
 				IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-				if (this.side_in.contains(side))
+				if (this.configSide.getSideIO(side).canInput())
 					for (int i : this.item_in)
 						Helper.mergeInventory(inv, this, i);
-				if (this.side_out.contains(side))
+				if (this.configSide.getSideIO(side).canOutput())
 					for (int i : this.item_out)
 						if (this.getStackInSlot(i) != null)
 							this.setStackInSlot(i,
@@ -182,72 +180,25 @@ public class ItemStackHandlerModify extends ItemStackHandler implements IItemIOC
 	}
 
 	@Override
-	public HashSet<EnumFacing> getInputSides()
+	public IConfigSide setConfigSide(IConfigSide configSide)
 	{
-		return this.side_in;
+		this.configSide = configSide;
+		return this.configSide;
 	}
 
 	@Override
-	public IItemIOConfig setInputSides(EnumFacing[] sides)
+	public IConfigSide getConfigSide()
 	{
-		this.side_in.clear();
-		this.side_in.addAll(Arrays.asList(sides));
-		return this;
-	}
-
-	@Override
-	public HashSet<EnumFacing> getOutputSides()
-	{
-		return this.side_out;
-	}
-
-	@Override
-	public IItemIOConfig setOutputSides(EnumFacing[] sides)
-	{
-		this.side_out.clear();
-		this.side_out.addAll(Arrays.asList(sides));
-		return this;
-	}
-
-	@Override
-	public IItemIOConfig resetAllSide()
-	{
-		this.setInputSides(new EnumFacing[] { EnumFacing.UP });
-		this.setOutputSides(new EnumFacing[] { EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.EAST,
-				EnumFacing.WEST });
-		return this;
-	}
-
-	@Override
-	public IItemIOConfig setInputSide(EnumFacing side)
-	{
-		this.side_in.add(side);
-		return this;
-	}
-
-	@Override
-	public IItemIOConfig setOutputSide(EnumFacing side)
-	{
-		this.side_out.add(side);
-		return this;
-	}
-
-	public IItemIOConfig removeInputSide(EnumFacing side)
-	{
-		this.side_in.remove(side);
-		return this;
-	}
-
-	public IItemIOConfig removeOutputSide(EnumFacing side)
-	{
-		this.side_out.remove(side);
-		return this;
+		return this.configSide;
 	}
 
 	@Override
 	public IItemIOConfig setSlotChecker(int slot, ILimitSlot checker)
 	{
-		this.slotCheckerIn.put(slot, checker);
+		if (this.item_in.contains(slot))
+			this.slotCheckerIn.put(slot, checker);
+		if (this.item_out.contains(slot))
+			this.slotCheckerOut.put(slot, checker);
 		return this;
 	}
 
@@ -291,9 +242,8 @@ public class ItemStackHandlerModify extends ItemStackHandler implements IItemIOC
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate)
 	{
-		if (this.canOutput(slot) && ((this.slotCheckerOut.containsKey(slot) && this.getStackInSlot(slot) != null)
-				? this.slotCheckerOut.get(slot).test(this.getStackInSlot(slot))
-				: true))
+		if (this.canOutput(slot) && ((!this.slotCheckerOut.containsKey(slot) || this.getStackInSlot(slot) == null)
+			|| this.slotCheckerOut.get(slot).test(this.getStackInSlot(slot))))
 			return super.extractItem(slot, amount, simulate);
 		return null;
 	}
@@ -364,10 +314,8 @@ public class ItemStackHandlerModify extends ItemStackHandler implements IItemIOC
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
-		return this.item_in.contains(index)
-				? this.slotCheckerIn.containsKey(index) && stack != null ? this.slotCheckerIn.get(index).test(stack)
-						: true
-				: false;
+		return this.item_in.contains(index) && (!this.slotCheckerIn.containsKey(index) || stack == null
+			|| this.slotCheckerIn.get(index).test(stack));
 	}
 
 	@Override

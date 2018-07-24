@@ -1,10 +1,11 @@
 package com.bxzmod.someusefulthings.tileentity;
 
+import com.bxzmod.someusefulthings.DefaultSide;
+import com.bxzmod.someusefulthings.ItemStackHandlerModify;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import com.bxzmod.someusefulthings.ItemStackHandlerModify;
 
 public class ForceEnchTableTiltEntity extends TileEntityBase
 {
@@ -16,8 +17,8 @@ public class ForceEnchTableTiltEntity extends TileEntityBase
 				.setSlotChecker(1,
 						stack -> stack.getItem().equals(Items.ENCHANTED_BOOK) && stack.hasTagCompound()
 								&& stack.getTagCompound().hasKey("StoredEnchantments")
-								&& !stack.getTagCompound().getTag("StoredEnchantments").hasNoTags())
-				.getInventory());
+								&& !stack.getTagCompound().getTag("StoredEnchantments").hasNoTags()).getInventory(),
+			new DefaultSide());
 	}
 
 	@Override

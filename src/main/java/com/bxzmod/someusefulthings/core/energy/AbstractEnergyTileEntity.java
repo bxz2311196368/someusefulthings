@@ -1,13 +1,12 @@
 package com.bxzmod.someusefulthings.core.energy;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import com.bxzmod.someusefulthings.Helper;
+import com.bxzmod.someusefulthings.IConfigSide;
 import com.bxzmod.someusefulthings.ItemStackHandlerModify;
 import com.bxzmod.someusefulthings.ModLoadFlag;
 import com.bxzmod.someusefulthings.tileentity.TileEntityBase;
-import com.google.common.primitives.Booleans;
-
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyAcceptor;
@@ -15,27 +14,24 @@ import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-		@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
+	@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
 public abstract class AbstractEnergyTileEntity extends TileEntityBase
-		implements ITickable, IEnergySide, IEnergyReceiver, IEnergyProvider, IEnergySink, IEnergySource
+	implements IEnergyReceiver, IEnergyProvider, IEnergySink, IEnergySource
 {
-	public AbstractEnergyTileEntity()
+	public AbstractEnergyTileEntity(IConfigSide configSide)
 	{
 		super(new ItemStackHandlerModify(9).setAllInputSlotChecker(stack -> Helper.isEnergyStack(stack))
-				.setAllOutputSlotChecker(stack -> Helper.isFullEnergyStack(stack)).getInventory());
+			.setAllOutputSlotChecker(stack -> Helper.isFullEnergyStack(stack)).getInventory(), configSide);
 	}
 
-	protected IEnergySide sideConfig = new DefaultSide();
-	protected EnergyAmountStorage storage = new EnergyAmountStorage(this.sideConfig);
+	protected EnergyAmountStorage storage;
 	protected boolean addedToEUnet = false;
 
 	@Override
@@ -84,13 +80,17 @@ public abstract class AbstractEnergyTileEntity extends TileEntityBase
 	@Override
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate)
 	{
-		return this.storage.rf.receiveEnergy(maxReceive, simulate);
+		if (this.getSideIO(from).canInput())
+			return this.storage.rf.receiveEnergy(maxReceive, simulate);
+		return 0;
 	}
 
 	@Override
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate)
 	{
-		return this.storage.rf.extractEnergy(maxExtract, simulate);
+		if (this.getSideIO(from).canOutput())
+			return this.storage.rf.extractEnergy(maxExtract, simulate);
+		return 0;
 	}
 
 	@Override
@@ -183,32 +183,18 @@ public abstract class AbstractEnergyTileEntity extends TileEntityBase
 	@Override
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side)
 	{
-		return this.canReceive(side);
+		return this.getSideIO(side).canInput();
 	}
 
 	@Override
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side)
 	{
-		return this.canExtract(side);
+		return this.getSideIO(side).canOutput();
 	}
 	// IC2 End
 
-	@Override
-	public boolean canReceive(EnumFacing side)
+	public double getTotalEnergy()
 	{
-		return this.sideConfig.canReceive(side);
+		return this.storage.getEnergyAomunt();
 	}
-
-	@Override
-	public boolean canExtract(EnumFacing side)
-	{
-		return this.sideConfig.canExtract(side);
-	}
-	
-	@Override
-	public boolean[] getAllEnergySide()
-	{
-		return this.sideConfig.getAllEnergySide();
-	}
-
 }

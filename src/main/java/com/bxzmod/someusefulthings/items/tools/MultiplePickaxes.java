@@ -73,4 +73,9 @@ public class MultiplePickaxes extends ItemTool
 		return false;
 	}
 
+	@Override
+	public boolean canHarvestBlock(IBlockState blockIn)
+	{
+		return true;
+	}
 }

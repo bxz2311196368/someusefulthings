@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.gui.client;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.capability.CapabilityLoader;
 import com.bxzmod.someusefulthings.capability.ITPLocation;
 import com.bxzmod.someusefulthings.capability.ITPLocation.BlockPosWithDimAndName;
@@ -24,10 +24,10 @@ import java.io.IOException;
 
 public class TPMenuGuiContainer extends GuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/TPMenu.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/TPMenu.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 	public static final ResourceLocation TEXTURES_B = new ResourceLocation(
-			Info.MODID + ":" + "textures/gui/container/button.png");
+		ModInfo.MODID + ":" + "textures/gui/container/button.png");
 
 	private GuiTextField nameField;
 

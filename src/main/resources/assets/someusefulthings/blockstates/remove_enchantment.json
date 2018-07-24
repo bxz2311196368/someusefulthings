@@ -1,25 +1,35 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "orientable",
-        "textures": {
-            "top": "someusefulthings:blocks/remove_enchantment_side",
-            "side": "someusefulthings:blocks/remove_enchantment_side"
-        }
-    },
-    "variants": {
-        "inventory": [{
-             "textures": { "front": "someusefulthings:blocks/remove_enchantment_off" }
-        }],
-        "work": {
-            "true": { "textures": { "front": "someusefulthings:blocks/remove_enchantment_on" } },
-            "false": { "textures": { "front": "someusefulthings:blocks/remove_enchantment_off" } }
-        },
-        "facing": {
-            "east": { "y": 90, "uvlock": true },
-            "north": {},
-            "south": { "y": 180, "uvlock": true },
-            "west": { "y": 270, "uvlock": true }
-        }
+  "forge_marker": 1,
+  "defaults": {
+    "model": "someusefulthings:block_face",
+    "textures": {
+      "side": "someusefulthings:blocks/common_side",
+      "face": "someusefulthings:blocks/remove_enchantment_on"
     }
+  },
+  "variants": {
+    "inventory": [
+      {}
+    ],
+    "normal": [
+      {
+        "textures": {
+          "in": "someusefulthings:blocks/in",
+          "out": "someusefulthings:blocks/out",
+          "all": "someusefulthings:blocks/all"
+        },
+        "submodel": {
+          "input": {
+            "model": "someusefulthings:block_io_in"
+          },
+          "output": {
+            "model": "someusefulthings:block_io_out"
+          },
+          "all": {
+            "model": "someusefulthings:block_io_all"
+          }
+        }
+      }
+    ]
+  }
 }

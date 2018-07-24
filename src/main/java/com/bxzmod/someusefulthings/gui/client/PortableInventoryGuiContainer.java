@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.gui.client;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.capability.CapabilityLoader;
 import com.bxzmod.someusefulthings.gui.GuiButtonBackPack;
 import com.bxzmod.someusefulthings.gui.server.PortableInventoryContainer;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class PortableInventoryGuiContainer extends GuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/PortableInventory.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/PortableInventory.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 	private PortableInventoryContainer gui;
 	private int meta;

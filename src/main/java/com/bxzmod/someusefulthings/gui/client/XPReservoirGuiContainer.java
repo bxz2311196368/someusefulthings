@@ -1,40 +1,32 @@
 package com.bxzmod.someusefulthings.gui.client;
 
 import com.bxzmod.someusefulthings.Helper;
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
+import com.bxzmod.someusefulthings.client.BXZRenderHelper;
 import com.bxzmod.someusefulthings.gui.server.XPReservoirContainer;
 import com.bxzmod.someusefulthings.network.MultiSignSync;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class XPReservoirGuiContainer extends GuiContainer
+public class XPReservoirGuiContainer extends BaseGuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/ToolSetting.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/ToolSetting.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 	public static final ResourceLocation TEXTURES_B = new ResourceLocation(
-			Info.MODID + ":" + "textures/gui/container/button.png");
+		ModInfo.MODID + ":" + "textures/gui/container/button.png");
 	private static final ResourceLocation XP_BAR = new ResourceLocation("textures/gui/icons.png");
 	private XPReservoirContainer gui;
 
 	public XPReservoirGuiContainer(XPReservoirContainer inventorySlotsIn)
 	{
-		super(inventorySlotsIn);
-		this.xSize = 176;
-		this.ySize = 133;
-		int offsetX = (this.width - this.xSize) / 2;
-		int offsetY = (this.height - this.ySize) / 2;
+		super(inventorySlotsIn, "copyEnchantment", TEXTURE, 176, 133);
 		this.gui = inventorySlotsIn;
 	}
 
@@ -42,9 +34,7 @@ public class XPReservoirGuiContainer extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		String title = I18n.format("tile.xpReservoir.name");
-		this.fontRendererObj.drawString(title, (this.xSize - this.fontRendererObj.getStringWidth(title)) / 2, 6,
-				0x404040);
+
 		String info = String.format("xp=%d,level=%d", gui.getXp(), Helper.getXpTotalLevel(gui.getXp()));
 		this.fontRendererObj.drawString(info, (this.xSize - this.fontRendererObj.getStringWidth(info)) / 2, 60,
 				0x404040);
@@ -52,21 +42,18 @@ public class XPReservoirGuiContainer extends GuiContainer
 		GlStateManager.color(1.0F, 1.0F, 1.0F);
 		int textureWidth = 2 + (int) Math.ceil(180 * this.getXPLevelPercent(this.gui.getXp()));
 		this.mc.getTextureManager().bindTexture(XP_BAR);
-		this.drawZoomTexturedModalRect(42, 56, 0, 69, textureWidth / 2, 5, textureWidth, 5, 256, 256);
+		BXZRenderHelper
+			.drawZoomTexturedModalRect(42, 56, 0, 69, textureWidth / 2, 5, textureWidth, 5, 256, 256, this.zLevel);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.color(1.0F, 1.0F, 1.0F);
-
-		this.mc.getTextureManager().bindTexture(TEXTURE);
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
-
-		this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
-
 		this.mc.getTextureManager().bindTexture(XP_BAR);
-		this.drawZoomTexturedModalRect(offsetX + 42, offsetY + 56, 0, 64, 91, 5, 182, 5, 256, 256);
+		BXZRenderHelper
+			.drawZoomTexturedModalRect(offsetX + 42, offsetY + 56, 0, 64, 91, 5, 182, 5, 256, 256, this.zLevel);
 	}
 
 	@Override
@@ -96,26 +83,6 @@ public class XPReservoirGuiContainer extends GuiContainer
 		super.actionPerformed(button);
 	}
 
-	public void drawZoomTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height,
-			float textureAreaWidth, float textureAreaHeight, float textureWidth, float textureHeight)
-	{
-		float f = 1.0F / textureWidth;
-		float f1 = 1.0F / textureHeight;
-		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
-		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		vertexbuffer.pos((double) x, (double) (y + height), (double) this.zLevel)
-				.tex((double) (textureX * f), (double) ((textureY + textureAreaHeight) * f1)).endVertex();
-		vertexbuffer.pos((double) (x + width), (double) (y + height), (double) this.zLevel)
-				.tex((double) ((textureX + textureAreaWidth) * f), (double) ((textureY + textureAreaHeight) * f1))
-				.endVertex();
-		vertexbuffer.pos((double) (x + width), (double) y, (double) this.zLevel)
-				.tex((double) ((textureX + textureAreaWidth) * f), (double) (textureY * f1)).endVertex();
-		vertexbuffer.pos((double) x, (double) y, (double) this.zLevel)
-				.tex((double) (textureX * f), (double) (textureY * f1)).endVertex();
-		tessellator.draw();
-	}
-
 	public double getXPLevelPercent(int xp)
 	{
 		return (double) (xp - Helper.getTotalXp(Helper.getXpTotalLevel(xp)))
@@ -136,7 +103,9 @@ public class XPReservoirGuiContainer extends GuiContainer
 			FontRenderer fontrenderer = mc.fontRendererObj;
 			mc.getTextureManager().bindTexture(TEXTURES_B);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.drawZoomTexturedModalRect(this.xPosition, this.yPosition, 0, 20, width, height, 40, 20, 256, 256);
+			BXZRenderHelper
+				.drawZoomTexturedModalRect(this.xPosition, this.yPosition, 0, 20, width, height, 40, 20, 256, 256,
+					GuiButtonMe.this.zLevel);
 			int j = 14737632;
 
 			if (packedFGColour != 0)
@@ -171,26 +140,6 @@ public class XPReservoirGuiContainer extends GuiContainer
 				return "---";
 			}
 			return "";
-		}
-
-		public void drawZoomTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height,
-				float textureAreaWidth, float textureAreaHeight, float textureWidth, float textureHeight)
-		{
-			float f = 1.0F / textureWidth;
-			float f1 = 1.0F / textureHeight;
-			Tessellator tessellator = Tessellator.getInstance();
-			VertexBuffer vertexbuffer = tessellator.getBuffer();
-			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			vertexbuffer.pos((double) x, (double) (y + height), (double) this.zLevel)
-					.tex((double) (textureX * f), (double) ((textureY + textureAreaHeight) * f1)).endVertex();
-			vertexbuffer.pos((double) (x + width), (double) (y + height), (double) this.zLevel)
-					.tex((double) ((textureX + textureAreaWidth) * f), (double) ((textureY + textureAreaHeight) * f1))
-					.endVertex();
-			vertexbuffer.pos((double) (x + width), (double) y, (double) this.zLevel)
-					.tex((double) ((textureX + textureAreaWidth) * f), (double) (textureY * f1)).endVertex();
-			vertexbuffer.pos((double) x, (double) y, (double) this.zLevel)
-					.tex((double) (textureX * f), (double) (textureY * f1)).endVertex();
-			tessellator.draw();
 		}
 
 	}

@@ -1,68 +1,35 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "cube",
-        "textures": {
-            "down": "someusefulthings:blocks/remove_enchantment_side",
-            "up": "someusefulthings:blocks/remove_enchantment_side",
-            "north": "someusefulthings:blocks/eye_generator_on",
-            "south": "someusefulthings:blocks/remove_enchantment_side",
-            "west": "someusefulthings:blocks/remove_enchantment_side",
-            "east": "someusefulthings:blocks/remove_enchantment_side"
-        }
-    },
-    "variants": {
-        "inventory": [{
-             "textures": { "down": "someusefulthings:blocks/remove_enchantment_side",
-            "up": "someusefulthings:blocks/remove_enchantment_side",
-            "north": "someusefulthings:blocks/eye_generator_on",
-            "south": "someusefulthings:blocks/remove_enchantment_side",
-            "west": "someusefulthings:blocks/remove_enchantment_side",
-            "east": "someusefulthings:blocks/remove_enchantment_side" }
-        }],
-        "facing": {
-            "east": { "y": 90, "uvlock": true },
-            "north": {},
-            "south": { "y": 180, "uvlock": true },
-            "west": { "y": 270, "uvlock": true },
-            "down": {},
-            "up": {}
-        },
-        "up":{
-        "input": { "textures": { "up": "someusefulthings:blocks/copy_enchantment_on" } },
-        "output": { "textures": { "up": "someusefulthings:blocks/copy_enchantment_off" } },
-        "all": { },
-        "not": { }
-        },
-        "down":{
-        "input": { "textures": { "down": "someusefulthings:blocks/copy_enchantment_on" } },
-        "output": { "textures": { "down": "someusefulthings:blocks/copy_enchantment_off" } },
-        "all": { },
-        "not": { }
-        },
-        "north":{
-        "input": { "textures": { "north": "someusefulthings:blocks/copy_enchantment_on" } },
-        "output": { "textures": { "north": "someusefulthings:blocks/copy_enchantment_off" } },
-        "all": { },
-        "not": { }
-        },
-        "south":{
-        "input": { "textures": { "south": "someusefulthings:blocks/copy_enchantment_on" } },
-        "output": { "textures": { "south": "someusefulthings:blocks/copy_enchantment_off" } },
-        "all": { },
-        "not": { }
-        },
-        "west":{
-        "input": { "textures": { "west": "someusefulthings:blocks/copy_enchantment_on" } },
-        "output": { "textures": { "west": "someusefulthings:blocks/copy_enchantment_off" } },
-        "all": { },
-        "not": { }
-        },
-        "east":{
-        "input": { "textures": { "east": "someusefulthings:blocks/copy_enchantment_on" } },
-        "output": { "textures": { "east": "someusefulthings:blocks/copy_enchantment_off" } },
-        "all": { },
-        "not": { }
-        }
+  "forge_marker": 1,
+  "defaults": {
+    "model": "someusefulthings:block_face",
+    "textures": {
+      "side": "someusefulthings:blocks/common_side",
+      "face": "someusefulthings:blocks/energy_block"
     }
+  },
+  "variants": {
+    "inventory": [
+      {}
+    ],
+    "normal": [
+      {
+        "textures": {
+          "in": "someusefulthings:blocks/in",
+          "out": "someusefulthings:blocks/out",
+          "all": "someusefulthings:blocks/all"
+        },
+        "submodel": {
+          "input": {
+            "model": "someusefulthings:block_io_in"
+          },
+          "output": {
+            "model": "someusefulthings:block_io_out"
+          },
+          "all": {
+            "model": "someusefulthings:block_io_all"
+          }
+        }
+      }
+    ]
+  }
 }

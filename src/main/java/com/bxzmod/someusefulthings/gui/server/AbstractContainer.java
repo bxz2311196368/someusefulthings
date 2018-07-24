@@ -1,27 +1,26 @@
 package com.bxzmod.someusefulthings.gui.server;
 
+import com.bxzmod.someusefulthings.tileentity.TileEntityBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public abstract class AbstractContainer extends Container
 {
 	protected IItemHandler items;
-	protected TileEntity te;
+	protected TileEntityBase te;
 	protected EntityPlayer player;
 
-	public AbstractContainer(EntityPlayer player, TileEntity tileEntity, int playerInventoryOffsetX,
+	public AbstractContainer(EntityPlayer player, TileEntityBase tileEntity, int playerInventoryOffsetX,
 			int playerInventoryOffsetY)
 	{
 		this(player, tileEntity, playerInventoryOffsetX, playerInventoryOffsetY, false);
 	}
 
-	public AbstractContainer(EntityPlayer player, TileEntity tileEntity, int playerInventoryOffsetX,
+	public AbstractContainer(EntityPlayer player, TileEntityBase tileEntity, int playerInventoryOffsetX,
 			int playerInventoryOffsetY, boolean lockMainHandItem)
 	{
 		this.player = player;
@@ -43,13 +42,6 @@ public abstract class AbstractContainer extends Container
 
 		int itemHandlerSlots = this.items.getSlots();
 
-		if (itemHandlerSlots != this.inventorySlots.size() - 36)
-		{
-			playerIn.sendStatusMessage(
-					new TextComponentTranslation("error.gui.not_add_all_slot", this.getClass().getName()));
-			return null;
-		}
-
 		if (slot == null || !slot.getHasStack())
 		{
 			return null;
@@ -64,7 +56,7 @@ public abstract class AbstractContainer extends Container
 			isMerged = mergeItemStack(newStack, 36, 36 + itemHandlerSlots, false)
 					|| mergeItemStack(newStack, 27, 36, false);
 			// player'inventory clicked(27), move to te's inventory first.
-			// if,can't,move to player's hot bar(9).
+			// if can't,move to player's hot bar(9).
 		} else if (index >= 27 && index < 36)
 		{
 			isMerged = mergeItemStack(newStack, 36, 36 + itemHandlerSlots, false)
@@ -121,5 +113,4 @@ public abstract class AbstractContainer extends Container
 			// add player's hot bar(9).
 		}
 	}
-
 }

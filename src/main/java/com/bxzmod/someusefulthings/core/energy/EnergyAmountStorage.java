@@ -1,7 +1,9 @@
 package com.bxzmod.someusefulthings.core.energy;
 
 import com.bxzmod.someusefulthings.Helper;
+import com.bxzmod.someusefulthings.IConfigSide;
 import com.bxzmod.someusefulthings.ModLoadFlag;
+import com.bxzmod.someusefulthings.blocks.property.EnumIO;
 import com.bxzmod.someusefulthings.core.energy.side.SideEnergyFE;
 import com.bxzmod.someusefulthings.core.energy.side.SideEnergyTesla;
 import mekanism.common.capabilities.Capabilities;
@@ -16,20 +18,20 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.IItemHandler;
 
-public class EnergyAmountStorage implements IEnergySide
+public class EnergyAmountStorage implements IConfigSide
 {
 	protected double energyAomunt = 0.0D;
 	protected double maxStorage;
 	protected double maxReceive;
 	protected double maxExtract;
-	protected IEnergySide sideConfig;
+	protected IConfigSide sideConfig;
 	public EnergyRFCommon rf;
 	public EnergyFECommon fe;
 	public EnergyTeslaCommon tesla;
 	public EnergyMekanismCommon mek;
 	public EnergyEUCommon eu;
 
-	public EnergyAmountStorage(double maxStorage, double maxReceive, double maxExtract, IEnergySide sideConfig)
+	public EnergyAmountStorage(double maxStorage, double maxReceive, double maxExtract, IConfigSide sideConfig)
 	{
 		this.maxStorage = maxStorage;
 		this.maxReceive = maxReceive;
@@ -45,17 +47,17 @@ public class EnergyAmountStorage implements IEnergySide
 			this.eu = new EnergyEUCommon(this);
 	}
 
-	public EnergyAmountStorage(double maxStorage, double maxTransfer, IEnergySide sideConfig)
+	public EnergyAmountStorage(double maxStorage, double maxTransfer, IConfigSide sideConfig)
 	{
 		this(maxStorage, maxTransfer, maxTransfer, sideConfig);
 	}
 
-	public EnergyAmountStorage(double maxStorage, IEnergySide sideConfig)
+	public EnergyAmountStorage(double maxStorage, IConfigSide sideConfig)
 	{
 		this(maxStorage, maxStorage, sideConfig);
 	}
 
-	public EnergyAmountStorage(IEnergySide sideConfig)
+	public EnergyAmountStorage(IConfigSide sideConfig)
 	{
 		this(Double.MAX_VALUE, sideConfig);
 	}
@@ -98,7 +100,7 @@ public class EnergyAmountStorage implements IEnergySide
 
 	public double receiveEnergy(EnumFacing side, double maxReceive, boolean simulate)
 	{
-		if (this.sideConfig.canReceive(side))
+		if (this.sideConfig.getSideIO(side).canInput())
 			return this.receiveEnergy(maxReceive, simulate);
 		return 0;
 	}
@@ -113,7 +115,7 @@ public class EnergyAmountStorage implements IEnergySide
 
 	public double extractEnergy(EnumFacing side, double maxExtract, boolean simulate)
 	{
-		if (this.sideConfig.canExtract(side))
+		if (this.sideConfig.getSideIO(side).canOutput())
 			return this.extractEnergy(maxExtract, simulate);
 		return 0;
 	}
@@ -126,37 +128,19 @@ public class EnergyAmountStorage implements IEnergySide
 	public void setMaxStorage(double maxStorage)
 	{
 		this.maxStorage = maxStorage;
+		this.maxExtract = this.maxStorage;
+		this.maxReceive = this.maxStorage;
 	}
 
 	public EnergyAmountStorage readFromNBT(NBTTagCompound nbt)
 	{
-		if (!nbt.hasKey("Energy"))
-			return this;
-		this.energyAomunt = nbt.getInteger("Energy");
-		this.maxExtract = nbt.getDouble("MaxExtract");
-		this.maxReceive = nbt.getDouble("MaxReceive");
-		this.maxStorage = nbt.getDouble("MaxStorage");
-		if (this.energyAomunt < 0)
-		{
-			this.energyAomunt = 0;
-		}
-		this.sideConfig.deserializeNBT(nbt.getCompoundTag("sides"));
-		this.syncAll();	
+		this.getConfigFromNBT(nbt);
 		return this;
 	}
 
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		if (this.energyAomunt < 0)
-		{
-			this.energyAomunt = 0;
-		}
-		nbt.setDouble("Energy", this.energyAomunt);
-		nbt.setDouble("MaxExtract", this.maxExtract);
-		nbt.setDouble("MaxReceive", this.maxReceive);
-		nbt.setDouble("MaxStorage", this.maxStorage);
-		nbt.setTag("sides", this.sideConfig.serializeNBT());
-		return nbt;
+		return this.getNBTFromConfig(nbt);
 	}
 
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
@@ -165,16 +149,14 @@ public class EnergyAmountStorage implements IEnergySide
 			return false;
 		if (ModLoadFlag.isTeslaLoad)
 		{
-			if (TeslaCapabilities.CAPABILITY_CONSUMER.equals(capability)
-					|| TeslaCapabilities.CAPABILITY_PRODUCER.equals(capability)
-					|| TeslaCapabilities.CAPABILITY_HOLDER.equals(capability))
+			if (TeslaCapabilities.CAPABILITY_CONSUMER.equals(capability) || TeslaCapabilities.CAPABILITY_PRODUCER
+				.equals(capability) || TeslaCapabilities.CAPABILITY_HOLDER.equals(capability))
 				return true;
 		}
 		if (ModLoadFlag.isMekLoad)
 		{
-			if (Capabilities.ENERGY_STORAGE_CAPABILITY.equals(capability)
-					|| Capabilities.ENERGY_OUTPUTTER_CAPABILITY.equals(capability)
-					|| Capabilities.ENERGY_STORAGE_CAPABILITY.equals(capability))
+			if (Capabilities.ENERGY_STORAGE_CAPABILITY.equals(capability) || Capabilities.ENERGY_OUTPUTTER_CAPABILITY
+				.equals(capability) || Capabilities.ENERGY_STORAGE_CAPABILITY.equals(capability))
 			{
 				return true;
 			}
@@ -192,23 +174,21 @@ public class EnergyAmountStorage implements IEnergySide
 			return null;
 		if (ModLoadFlag.isTeslaLoad)
 		{
-			if (TeslaCapabilities.CAPABILITY_CONSUMER.equals(capability)
-					|| TeslaCapabilities.CAPABILITY_PRODUCER.equals(capability)
-					|| TeslaCapabilities.CAPABILITY_HOLDER.equals(capability))
-				return (T) new SideEnergyTesla(this.sideConfig.canReceive(facing), this.tesla);
+			if (TeslaCapabilities.CAPABILITY_CONSUMER.equals(capability) || TeslaCapabilities.CAPABILITY_PRODUCER
+				.equals(capability) || TeslaCapabilities.CAPABILITY_HOLDER.equals(capability))
+				return (T) new SideEnergyTesla(this.sideConfig.getSideIO(facing).canInput(), this.tesla);
 		}
 		if (ModLoadFlag.isMekLoad)
 		{
-			if (Capabilities.ENERGY_STORAGE_CAPABILITY.equals(capability)
-					|| Capabilities.ENERGY_OUTPUTTER_CAPABILITY.equals(capability)
-					|| Capabilities.ENERGY_ACCEPTOR_CAPABILITY.equals(capability))
+			if (Capabilities.ENERGY_STORAGE_CAPABILITY.equals(capability) || Capabilities.ENERGY_OUTPUTTER_CAPABILITY
+				.equals(capability) || Capabilities.ENERGY_ACCEPTOR_CAPABILITY.equals(capability))
 			{
 				return (T) this.mek;
 			}
 		}
 		if (CapabilityEnergy.ENERGY.equals(capability))
 		{
-			return (T) new SideEnergyFE(this.sideConfig.canReceive(facing), this.fe);
+			return (T) new SideEnergyFE(this.sideConfig.getSideIO(facing).canInput(), this.fe);
 		}
 		return null;
 	}
@@ -226,39 +206,76 @@ public class EnergyAmountStorage implements IEnergySide
 	}
 
 	@Override
-	public boolean canReceive(EnumFacing side)
+	public EnumIO getSideIO(EnumFacing side)
 	{
-		return this.sideConfig.canReceive(side);
+		return this.sideConfig.getSideIO(side);
 	}
 
 	@Override
-	public boolean canExtract(EnumFacing side)
+	public EnumIO setSideIO(EnumFacing side, EnumIO io)
 	{
-		return this.sideConfig.canExtract(side);
+		return this.sideConfig.setSideIO(side, io);
 	}
 
 	@Override
-	public void setSideCanReceive(EnumFacing side, boolean values)
+	public EnumIO cycleSideIO(EnumFacing side)
 	{
-		this.sideConfig.setSideCanReceive(side, values);
+		return this.sideConfig.cycleSideIO(side);
 	}
 
 	@Override
-	public void setAllEnergySide(boolean[] sides)
+	public EnumFacing getFacing()
 	{
-		this.sideConfig.setAllEnergySide(sides);
+		return this.sideConfig.getFacing();
 	}
 
 	@Override
-	public boolean[] getAllEnergySide()
+	public void setFacing(EnumFacing facing)
 	{
-		return this.sideConfig.getAllEnergySide();
+		this.sideConfig.setFacing(facing);
+	}
+
+	@Override
+	public EnumFacing rotateY()
+	{
+		return this.sideConfig.rotateY();
+	}
+
+	@Override
+	public NBTTagCompound getNBTFromConfig(NBTTagCompound nbt)
+	{
+		if (this.energyAomunt < 0)
+		{
+			this.energyAomunt = 0;
+		}
+		nbt.setDouble("Energy", this.energyAomunt);
+		nbt.setDouble("MaxExtract", this.maxExtract);
+		nbt.setDouble("MaxReceive", this.maxReceive);
+		nbt.setDouble("MaxStorage", this.maxStorage);
+		return this.sideConfig.getNBTFromConfig(nbt);
+	}
+
+	@Override
+	public void getConfigFromNBT(NBTTagCompound nbt)
+	{
+		if (!nbt.hasKey("Energy"))
+			return;
+		this.energyAomunt = nbt.getDouble("Energy");
+		this.maxExtract = nbt.getDouble("MaxExtract");
+		this.maxReceive = nbt.getDouble("MaxReceive");
+		this.maxStorage = nbt.getDouble("MaxStorage");
+		if (this.energyAomunt < 0)
+		{
+			this.energyAomunt = 0;
+		}
+		this.sideConfig.getConfigFromNBT(nbt);
+		this.syncAll();
 	}
 
 	public void transferEnergy(World world, BlockPos pos)
 	{
 		for (EnumFacing side : EnumFacing.VALUES)
-			if (this.canExtract(side) && Helper.getAdjacentTileEntity(world, pos, side) != null)
+			if (this.getSideIO(side).canOutput() && Helper.getAdjacentTileEntity(world, pos, side) != null)
 				this.transferSideEnergy(side, Helper.getAdjacentTileEntity(world, pos, side));
 	}
 
@@ -290,17 +307,4 @@ public class EnergyAmountStorage implements IEnergySide
 			}
 		}
 	}
-
-	@Override
-	public NBTTagCompound serializeNBT()
-	{
-		return null;
-	}
-
-	@Override
-	public void deserializeNBT(NBTTagCompound nbt)
-	{
-		
-	}
-
 }

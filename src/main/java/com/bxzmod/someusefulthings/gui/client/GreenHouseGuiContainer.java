@@ -1,8 +1,7 @@
 package com.bxzmod.someusefulthings.gui.client;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.gui.server.GreenHouseContainer;
-
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -10,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GreenHouseGuiContainer extends GuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/GreenHouse.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/GreenHouse.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 
 	public GreenHouseGuiContainer(GreenHouseContainer inventorySlotsIn)

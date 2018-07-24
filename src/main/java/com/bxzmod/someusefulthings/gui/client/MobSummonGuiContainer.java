@@ -1,14 +1,10 @@
 package com.bxzmod.someusefulthings.gui.client;
 
-import java.io.IOException;
-import java.util.List;
-
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.gui.server.MobSummonContainer;
 import com.bxzmod.someusefulthings.network.MultiSignSync;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
 import com.bxzmod.someusefulthings.tileentity.MobSummonTileEntity;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -23,12 +19,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+import java.util.List;
+
 public class MobSummonGuiContainer extends GuiContainer
 {
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/CopyEnchantment.png";
+	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/CopyEnchantment.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 	public static final ResourceLocation TEXTURES_B = new ResourceLocation(
-			Info.MODID + ":" + "textures/gui/container/button.png");
+		ModInfo.MODID + ":" + "textures/gui/container/button.png");
 
 	private MobSummonTileEntity te;
 

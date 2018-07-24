@@ -17,10 +17,9 @@ import net.minecraftforge.common.util.FakePlayer;
 public class LavaPump extends BaseBlockContainer
 {
 
-	protected LavaPump()
+	public LavaPump()
 	{
-		this.setUnlocalizedName("lavaPump");
-		this.setRegistryName("lava_pump");
+		super("lava_pump", "lavaPump");
 	}
 
 	@Override

@@ -10,13 +10,13 @@ import net.minecraftforge.fml.common.event.*;
 
 import java.io.IOException;
 
-@Mod(modid = Info.MODID, name = Info.MODNAME, dependencies = Info.dependencies, version = Info.VERSION, acceptedMinecraftVersions = Info.acceptedMinecraftVersions)
+@Mod(modid = ModInfo.MODID, name = ModInfo.MODNAME, dependencies = ModInfo.dependencies, version = ModInfo.VERSION, acceptedMinecraftVersions = ModInfo.acceptedMinecraftVersions)
 public class Main
 {
 	@SidedProxy(clientSide = "com.bxzmod.someusefulthings.client.Client", serverSide = "com.bxzmod.someusefulthings.server.Common")
 	public static Common proxy;
 
-	@Instance(Info.MODID)
+	@Instance(ModInfo.MODID)
 	public static Main instance;
 
 	static

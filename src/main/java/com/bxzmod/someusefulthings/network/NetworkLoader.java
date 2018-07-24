@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.network;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class NetworkLoader
 {
-	public static SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(Info.MODID);
+	public static SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MODID);
 
 	private static int nextID = 0;
 

@@ -1,7 +1,6 @@
 package com.bxzmod.someusefulthings.blocks;
 
 import com.bxzmod.someusefulthings.Main;
-import com.bxzmod.someusefulthings.SideInventory;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.tileentity.CraftingTableTileEntity;
 import net.minecraft.block.state.IBlockState;
@@ -20,13 +19,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CraftingTable extends BaseBlockContainer
+public class CraftingTable extends BaseIOBlockContainer
 {
 
 	public CraftingTable()
 	{
-		this.setUnlocalizedName("craftingTable");
-		this.setRegistryName("crafting_table");
+		super("crafting_table", "craftingTable");
 	}
 
 	@Override
@@ -45,24 +43,6 @@ public class CraftingTable extends BaseBlockContainer
 			playerIn.openGui(Main.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
-	}
-
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		CraftingTableTileEntity te = (CraftingTableTileEntity) worldIn.getTileEntity(pos);
-
-		SideInventory inv = te.getSideInventory();
-		for (int m = inv.getSizeInventory() - 1; m >= 0; --m)
-		{
-			if (inv.getStackInSlot(m) != null)
-			{
-				spawnAsEntity(worldIn, pos, inv.getStackInSlot(m));
-				inv.setStackInSlot(m, null);
-			}
-		}
-
-		super.breakBlock(worldIn, pos, state);
 	}
 
 	@SideOnly(Side.CLIENT)

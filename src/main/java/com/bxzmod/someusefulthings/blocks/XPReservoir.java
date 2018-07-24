@@ -18,10 +18,9 @@ import net.minecraftforge.common.util.FakePlayer;
 public class XPReservoir extends BaseBlockContainer
 {
 
-	protected XPReservoir()
+	public XPReservoir()
 	{
-		this.setUnlocalizedName("xpReservoir");
-		this.setRegistryName("xp_reservoir");
+		super("xp_reservoir", "xpReservoir");
 	}
 
 	@Override

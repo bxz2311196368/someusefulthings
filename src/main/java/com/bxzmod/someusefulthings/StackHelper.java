@@ -3,6 +3,7 @@ package com.bxzmod.someusefulthings;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
+@Deprecated
 public class StackHelper extends ItemStackHandler
 {
 

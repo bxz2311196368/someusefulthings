@@ -1,9 +1,9 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
+import com.bxzmod.someusefulthings.tileentity.CopyEnchantmentTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.tileentity.TileEntity;
 
 public class CopyEnchantmentContainer extends AbstractContainer
 {
@@ -12,17 +12,17 @@ public class CopyEnchantmentContainer extends AbstractContainer
 	protected Slot book;
 	protected Slot copy;
 
-	public CopyEnchantmentContainer(EntityPlayer player, TileEntity tileEntity)
+	public CopyEnchantmentContainer(EntityPlayer player, CopyEnchantmentTileEntity tileEntity)
 	{
 		super(player, tileEntity, 8, 51);
 
-		this.addSlotToContainer(this.enchbook = new SlotItemHandlerHelper(items, 0, 17, 20));
+		this.enchbook = this.addSlotToContainer(new SlotItemHandlerHelper(items, 0, 17, 20));
 
-		this.addSlotToContainer(this.Lapis = new SlotItemHandlerHelper(items, 1, 53, 20));
+		this.Lapis = this.addSlotToContainer(new SlotItemHandlerHelper(items, 1, 53, 20));
 
-		this.addSlotToContainer(this.book = new SlotItemHandlerHelper(items, 2, 89, 20));
+		this.book = this.addSlotToContainer(new SlotItemHandlerHelper(items, 2, 89, 20));
 
-		this.addSlotToContainer(this.copy = new SlotItemHandlerHelper(items, 3, 143, 20));
+		this.copy = this.addSlotToContainer(new SlotItemHandlerHelper(items, 3, 143, 20));
 	}
 
 }

@@ -1,9 +1,11 @@
 package com.bxzmod.someusefulthings.recipes;
 
+import com.bxzmod.someusefulthings.ModInfo;
 import com.bxzmod.someusefulthings.blocks.BlockLoader;
 import com.bxzmod.someusefulthings.config.ConfigLoader;
 import com.bxzmod.someusefulthings.fluid.FluidLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,6 +20,7 @@ import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -26,7 +29,7 @@ public class CraftingLoader
 	public final static ItemStack limitlesstoolwithnbt = new ItemStack(ItemLoader.limitlesstool);
 	public final static ItemStack limitlesstoolwithnbt1 = new ItemStack(ItemLoader.limitlesstool);
 
-	public CraftingLoader(FMLInitializationEvent event)
+	static
 	{
 		NBTTagCompound dig = new NBTTagCompound();
 		dig.setInteger("dig_range", 1);
@@ -37,9 +40,20 @@ public class CraftingLoader
 		limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(33), 1);
 		limitlesstoolwithnbt1.getTagCompound().setTag("dig_parameter", dig);
 		limitlesstoolwithnbt1.getTagCompound().setTag("dig_parameter", dig);
+	}
+
+	public CraftingLoader(FMLInitializationEvent event)
+	{
+		registerRecipeClass();
 		registerRecipe();
 		registerSmelting();
 		registerFuel();
+	}
+
+	private static void registerRecipeClass()
+	{
+		RecipeSorter.register(ModInfo.MODID + ":shaped_ore_no_return", ShapedOreRecipeNoReturn.class,
+			RecipeSorter.Category.SHAPED, "after:forge:shapedore");
 	}
 
 	private static void registerRecipe()
@@ -132,17 +146,8 @@ public class CraftingLoader
 				new Object[] { "###", "#*#", "###", '*', Items.GOLDEN_PICKAXE, '#', "ingotGold" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.infiniteFuel),
 				new Object[] { "###", "#*#", "###", '*', "blockCoal", '#', "gemDiamond" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.fastFurnace),
-				new Object[] { "###", "#*#", "###", '*', ItemLoader.infiniteFuel, '#', "blockCoal" })
-		{
-
-			@Override
-			public ItemStack[] getRemainingItems(InventoryCrafting inv)
-			{
-				return new ItemStack[9];
-			}
-
-		});
+		GameRegistry.addRecipe(new ShapedOreRecipeNoReturn(new ItemStack(BlockLoader.fastFurnace),
+			new Object[] { "###", "#*#", "###", '*', ItemLoader.infiniteFuel, '#', "blockCoal" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.mobSummon),
 				new Object[] { "###", "#*#", "###", '*', "blockDiamond", '#', Blocks.MOB_SPAWNER }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.DRAGON_EGG),
@@ -177,4 +182,29 @@ public class CraftingLoader
 		else
 			return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
 	}
+
+	public static class ShapedOreRecipeNoReturn extends ShapedOreRecipe
+	{
+		public ShapedOreRecipeNoReturn(Block result, Object... recipe)
+		{
+			super(result, recipe);
+		}
+
+		public ShapedOreRecipeNoReturn(Item result, Object... recipe)
+		{
+			super(result, recipe);
+		}
+
+		public ShapedOreRecipeNoReturn(ItemStack result, Object... recipe)
+		{
+			super(result, recipe);
+		}
+
+		@Override
+		public ItemStack[] getRemainingItems(InventoryCrafting inv)
+		{
+			return new ItemStack[9];
+		}
+	}
+
 }

@@ -20,8 +20,7 @@ public class InfiniteWater extends BaseBlockContainer
 
 	public InfiniteWater()
 	{
-		this.setUnlocalizedName("infiniteWater");
-		this.setRegistryName("infinite_water");
+		super("infinite_water", "infiniteWater");
 	}
 
 	@Override

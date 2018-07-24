@@ -5,6 +5,14 @@
         "transform": "forge:default-item"
     },
   "variants": {
+    "inventory": [
+      {
+        "model": "forge:fluid",
+        "custom": {
+          "fluid": "fluid_wwwwwater"
+        }
+      }
+    ],
     "fluid": {
       "model": "forge:fluid",
       "custom": { "fluid": "fluid_wwwwwater" }

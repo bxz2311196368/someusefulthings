@@ -1,10 +1,9 @@
 package com.bxzmod.someusefulthings.blocks;
 
-import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -76,7 +75,7 @@ public class BlockRenderLoader
 	@SideOnly(Side.CLIENT)
 	private static void registerItemBlockRender(ItemBlock item, int meta, String name, String variantIn)
 	{
-		ResourceLocation location = new ResourceLocation(Info.MODID, name);
+		ResourceLocation location = new ResourceLocation(ModInfo.MODID, name);
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, variantIn));
 	}
 

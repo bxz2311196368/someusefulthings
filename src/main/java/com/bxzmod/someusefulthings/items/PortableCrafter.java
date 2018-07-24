@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.items;
 
-import com.bxzmod.someusefulthings.ItemStackHandlerTweak;
+import com.bxzmod.someusefulthings.ItemStackHandlerModify;
 import com.bxzmod.someusefulthings.Main;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
@@ -43,7 +43,7 @@ public class PortableCrafter extends Item
 	{
 		if (!worldIn.isRemote)
 		{
-			int id = GuiLoader.GUI_C_T;
+			int id = GuiLoader.GUI_P_C;
 			playerIn.openGui(Main.instance, id, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
 		}
 
@@ -59,16 +59,14 @@ public class PortableCrafter extends Item
 				@Override
 				public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
 				{
-					if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
-						return true;
-					return false;
+					return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability);
 				}
 
 				@Override
 				public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
 				{
 					if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
-						return (T) new ItemStackHandlerTweak(9);
+						return (T) new ItemStackHandlerModify(9);
 					return null;
 				}
 			};

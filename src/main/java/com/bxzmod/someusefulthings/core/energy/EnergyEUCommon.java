@@ -37,13 +37,13 @@ public class EnergyEUCommon implements IEnergySource, IEnergySink
 	@Override
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side)
 	{
-		return this.storage.canReceive(side);
+		return this.storage.getSideIO(side).canInput();
 	}
 
 	@Override
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side)
 	{
-		return this.storage.canExtract(side);
+		return this.storage.getSideIO(side).canOutput();
 	}
 
 	@Override
