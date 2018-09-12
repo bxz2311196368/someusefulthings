@@ -1,4 +1,4 @@
-package com.bxzmod.someusefulthings.blocks.Model;
+package com.bxzmod.someusefulthings.blocks.model;
 
 import net.minecraft.client.renderer.EnumFaceDirection;
 import net.minecraft.client.renderer.block.model.BakedQuad;

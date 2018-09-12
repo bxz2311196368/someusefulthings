@@ -2,7 +2,6 @@ package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
 import com.bxzmod.someusefulthings.tileentity.GreenHouseTileEntity;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;

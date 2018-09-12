@@ -2,12 +2,18 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
+		maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+		classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
@@ -18,14 +24,27 @@ archivesBaseName = "bxzmod-someusefulthings"
 sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
+
+}
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+sourceSets {
+    main {
+        ext.refMap = "mixins.bxz.refmap.json"
+    }
 }
 
 repositories {
+  maven { url "http://repo.spongepowered.org/maven" }
+  maven { url "http://www.dimdev.org/maven" }
   maven { url "http://dvs1.progwml6.com/files/maven" } //JEI, Natura, Mantle, TiCon
   maven { url "http://tehnut.info/maven" } //Hwyla Maven
   maven { url 'https://maven.mcmoddev.com'} //many mods
   maven { url 'http://maven.blamejared.com'} //CraftTweaker,ImmersiveEngineering
-  maven { url 'https://minecraft.curseforge.com/api/maven/'}
   maven { url "http://maven.amadornes.com/"} //MCMultipart
   maven { url "https://maven.chaosfield.at"} //AA Maven
   maven { url = "http://maven.covers1624.net"} //CoFH
@@ -47,6 +66,11 @@ repositories {
     // url of the maven that hosts Harvest Festival files
     url "http://girafi.dk/maven/"
   }
+  ivy {
+        url "https://google.com/404"
+        ivyPattern("https://google.com/404") // Workaround for https://github.com/gradle/gradle/issues/4107
+        artifactPattern("https://media.forgecdn.net/files/[organisation]/[module]/[revision].[ext]")
+    }
 }
 
 minecraft {
@@ -60,9 +84,22 @@ minecraft {
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
     makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+	
+	def args = [
+            "-Dfml.coreMods.load=com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin",
+            "-Dmixin.hotSwap=true",
+            "-Dmixin.checks.interfaces=true",
+            "-Dmixin.debug.export=true"
+    ]
+    clientJvmArgs.addAll(args)
+    serverJvmArgs.addAll(args)
 }
 
 dependencies {
+	compile('org.spongepowered:mixin:0.7.5-SNAPSHOT')
+	embed('org.spongepowered:mixin:0.7.5-SNAPSHOT'){
+            exclude module: 'launchwrapper'
+        }
     //compile fileTree(dir: 'libs', include: ['*.jar'])
 	//deobfCompile "journeymap:journeymap:1.10.2:${version_journeymap}"
 	//deobfCompile "mezz.jei:jei_1.10.2:+"
@@ -88,11 +125,28 @@ dependencies {
 	//deobfCompile "MineTweaker3:MineTweaker3-MC1102-Main:1.10.2-3.0.26.113"
 }
 jar {
-    manifest {
-       attributes 'FMLAT': 'someusefulthings_at.cfg'
-       attributes 'FMLCorePlugin': 'com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin'
-       attributes 'FMLCorePluginContainsFMLMod': 'true'
+	from configurations.embed.collect {
+        if(it.isDirectory()){
+            return it
+        }else{
+            FileTree tmp = zipTree(it)
+            for(File s : tmp.files) {
+                if (s.toString().endsWith(".html")){
+                    tmp.files.remove(s)
+                }
+            }
+            return tmp
+        }
     }
+	manifest.attributes(
+            "FMLCorePluginContainsFMLMod": "true",
+            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+            "MixinConfigs": "mixins.bxz.json",
+            //"FMLCorePlugin": "com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin",
+            "ForceLoadAsMod": "true",
+            "FMLAT": "someusefulthings_at.cfg",
+			"TweakOrder": "0"
+    )
 }
 processResources
 {
@@ -127,4 +181,5 @@ task sourcesJar(type: Jar) {
  
 artifacts {
         archives deobfJar
+		archives sourcesJar
 }

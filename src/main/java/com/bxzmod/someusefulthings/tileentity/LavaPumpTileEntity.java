@@ -122,7 +122,7 @@ public class LavaPumpTileEntity extends TileFluidHandler implements ITickable
 		{
 			IBlockState iblockstate = world.getBlockState(posToDrain.add(0, i, 0));
 			Material material = iblockstate.getMaterial();
-			if (material == Material.LAVA && ((Integer) iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0)
+			if (material == Material.LAVA && iblockstate.getValue(BlockLiquid.LEVEL) == 0)
 			{
 				world.setBlockState(posToDrain.add(0, i, 0), Blocks.DIRT.getDefaultState());
 				tank.fillInternal(new FluidStack(FluidRegistry.LAVA, 1000), true);

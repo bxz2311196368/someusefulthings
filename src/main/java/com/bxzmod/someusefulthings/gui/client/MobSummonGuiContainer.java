@@ -6,10 +6,8 @@ import com.bxzmod.someusefulthings.network.MultiSignSync;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
 import com.bxzmod.someusefulthings.tileentity.MobSummonTileEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSlot;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -22,36 +20,34 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.io.IOException;
 import java.util.List;
 
-public class MobSummonGuiContainer extends GuiContainer
+public class MobSummonGuiContainer extends BaseGuiContainer
 {
 	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/CopyEnchantment.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 	public static final ResourceLocation TEXTURES_B = new ResourceLocation(
 		ModInfo.MODID + ":" + "textures/gui/container/button.png");
 
-	private MobSummonTileEntity te;
+	public MobSummonTileEntity te;
 
-	private ListEntityDisplay list;
+	private GuiSlot list;
 
 	public MobSummonGuiContainer(MobSummonContainer inventorySlotsIn)
 	{
-		super(inventorySlotsIn);
-		this.xSize = 176;
-		this.ySize = 133;
-		this.te = inventorySlotsIn.getTe();
+		super(inventorySlotsIn, "", TEXTURE, 220, 166);
+		this.te = inventorySlotsIn.getBasicTe();
 		this.te.setClinetWorldEntityNames();
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.color(1.0F, 1.0F, 1.0F);
+		//no op
+	}
 
-		this.mc.getTextureManager().bindTexture(TEXTURE);
-		int offsetX = (this.width - this.xSize) / 2;
-		int offsetY = (this.height - this.ySize) / 2;
-
-		this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	{
+		//no op
 	}
 
 	@Override
@@ -60,10 +56,12 @@ public class MobSummonGuiContainer extends GuiContainer
 		super.initGui();
 		int offsetX = (this.width - this.xSize) / 2;
 		int offsetY = (this.height - this.ySize) / 2;
-		this.list = new ListEntityDisplay(this.mc, this.width, this.height, offsetX, offsetX + this.xSize, offsetY,
-				offsetY + this.ySize, 18);
+		int lineWidth = 2;
+		int slotWidth = (this.xSize - 12 - lineWidth * 2) / 2 - lineWidth;
+		int slotHeight = (this.ySize - 30) / 8 - lineWidth;
+		this.list = new BaseGuiListString(this.mc, "list", offsetX, offsetY, 30, slotWidth, slotHeight, 2, 8, 2, this, MobSummonTileEntity.getEntitys());
 		this.list.registerScrollButtons(7, 8);
-		this.buttonList.add(new GuiButton(100, offsetX, offsetY + this.ySize, this.xSize, 18, "reset")
+		/*this.buttonList.add(new GuiButton(100, offsetX, offsetY + this.ySize, this.xSize, 18, "reset")
 		{
 
 			@Override
@@ -93,7 +91,7 @@ public class MobSummonGuiContainer extends GuiContainer
 				}
 			}
 
-		});
+		});*/
 	}
 
 	@Override
@@ -127,26 +125,6 @@ public class MobSummonGuiContainer extends GuiContainer
 	{
 		super.handleMouseInput();
 		this.list.handleMouseInput();
-	}
-
-	public void drawZoomTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height,
-			float textureAreaWidth, float textureAreaHeight, float textureWidth, float textureHeight)
-	{
-		float f = 1.0F / textureWidth;
-		float f1 = 1.0F / textureHeight;
-		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
-		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		vertexbuffer.pos((double) x, (double) (y + height), (double) this.zLevel)
-				.tex((double) (textureX * f), (double) ((textureY + textureAreaHeight) * f1)).endVertex();
-		vertexbuffer.pos((double) (x + width), (double) (y + height), (double) this.zLevel)
-				.tex((double) ((textureX + textureAreaWidth) * f), (double) ((textureY + textureAreaHeight) * f1))
-				.endVertex();
-		vertexbuffer.pos((double) (x + width), (double) y, (double) this.zLevel)
-				.tex((double) ((textureX + textureAreaWidth) * f), (double) (textureY * f1)).endVertex();
-		vertexbuffer.pos((double) x, (double) y, (double) this.zLevel)
-				.tex((double) (textureX * f), (double) (textureY * f1)).endVertex();
-		tessellator.draw();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -184,9 +162,8 @@ public class MobSummonGuiContainer extends GuiContainer
 		@Override
 		protected boolean isSelected(int slotIndex)
 		{
-			return EntityName.size() > slotIndex
-					? EntityName.get(slotIndex).equals(MobSummonGuiContainer.this.te.getSelectEntity())
-					: false;
+			return EntityName.size() > slotIndex && EntityName.get(slotIndex)
+					.equals(MobSummonGuiContainer.this.te.getSelectEntity());
 		}
 
 		@Override

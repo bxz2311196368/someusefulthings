@@ -1,7 +1,7 @@
 package com.bxzmod.someusefulthings.client;
 
 import com.bxzmod.someusefulthings.blocks.BlockRenderLoader;
-import com.bxzmod.someusefulthings.blocks.Model.BXZModelLoader;
+import com.bxzmod.someusefulthings.blocks.model.BXZModelLoader;
 import com.bxzmod.someusefulthings.entity.EntityRenderLoader;
 import com.bxzmod.someusefulthings.fluid.FluidRenderLoader;
 import com.bxzmod.someusefulthings.items.ItemRenderLoader;

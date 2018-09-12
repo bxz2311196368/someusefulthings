@@ -59,99 +59,98 @@ public class CraftingLoader
 	private static void registerRecipe()
 	{
 		if (ConfigLoader.invincible_ring)
-			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.invinciblering), new Object[] { " # ", "#*#", " # ",
-					'#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.DRAGON_EGG) });
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.invinciblering), " # ", "#*#", " # ", '#', Items.NETHER_STAR,
+					'*', Item.getItemFromBlock(Blocks.DRAGON_EGG));
 		if (ConfigLoader.redstone_apple)
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.redstoneapple),
-					new Object[] { "###", "#*#", "###", '#', "dustRedstone", '*', Items.APPLE }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.redstoneapple), "###", "#*#", "###", '#',
+					"dustRedstone", '*', Items.APPLE));
 		if (ConfigLoader.limitless_tool)
 		{
-			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt,
-					new Object[] { "PAS", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S',
-							Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', "blockDiamond", 'H', Items.DIAMOND_HOE,
-							'#', Items.SHEARS }));
-			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt1,
-					new Object[] { "SAP", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S',
-							Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', "blockDiamond", 'H', Items.DIAMOND_HOE,
-							'#', Items.SHEARS }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt, "PAS", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE,
+					'A', Items.DIAMOND_AXE, 'S', Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', "blockDiamond",
+					'H', Items.DIAMOND_HOE, '#', Items.SHEARS));
+			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt1, "SAP", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE,
+					'A', Items.DIAMOND_AXE, 'S', Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', "blockDiamond",
+					'H', Items.DIAMOND_HOE, '#', Items.SHEARS));
 		}
 		if (ConfigLoader.artifact_sword)
 		{
-			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.artifactsword), new Object[] { "###", "#*#", "###",
-					'#', Items.NETHER_STAR, '*', ItemLoader.compressedDiamondSword });
-			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.compressedDiamondSword),
-					new Object[] { "###", "###", "###", '#', Items.DIAMOND_SWORD });
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.artifactsword), "###", "#*#", "###", '#', Items.NETHER_STAR,
+					'*', ItemLoader.compressedDiamondSword);
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.compressedDiamondSword), "###", "###", "###", '#',
+					Items.DIAMOND_SWORD);
 		}
 		if (ConfigLoader.remove_enchantment)
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.removeEnchantmentItemBlock), new Object[] {
-					" # ", "#*#", " # ", '#', "gemDiamond", '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.removeEnchantmentItemBlock), " # ",
+					"#*#", " # ", '#', "gemDiamond", '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)));
 		if (ConfigLoader.reinforcement_machine)
-			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.reinforcementMachineItemBlock), new Object[] { " # ",
-					"#*#", " # ", '#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) });
+			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.reinforcementMachineItemBlock), " # ", "#*#", " # ",
+					'#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE));
 		if (ConfigLoader.copy_enchantment)
-			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.copyEnchantmentItemBlock), new Object[] { "###", "#*#",
-					"###", '#', Items.ENCHANTED_BOOK, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) });
+			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.copyEnchantmentItemBlock), "###", "#*#", "###", '#',
+					Items.ENCHANTED_BOOK, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE));
 		if (ConfigLoader.portable_inventory_item)
 			for (int i = 0; i < 16; i++)
 			{
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.portableInventoryItem, 1, i),
-						new Object[] { "WDW", "LCL", "WDW", 'W', "wool", 'D',
-								"dye" + toUpperCaseFirstOne(EnumDyeColor.byMetadata(i).toString()), 'C', "chest", 'L',
-								"leather" }));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.portableInventoryItem, 1, i), "WDW",
+						"LCL", "WDW", 'W', "wool", 'D', "dye" + toUpperCaseFirstOne(EnumDyeColor.byMetadata(i).toString()),
+						'C', "chest", 'L', "leather"));
 			}
 		if (ConfigLoader.bucket_wwwwater)
 			GameRegistry.addShapelessRecipe(
 					UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket,
 							FluidLoader.fluidWwwwwater),
 					new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.BUCKET));
-		GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.forceEnchTableItemBlock),
-				new Object[] { "###", "###", "###", '#', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) });
-		GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.tankItemBlock),
-				new Object[] { "###", "#*#", "###", '#', Item.getItemFromBlock(Blocks.GLASS), '*', Items.BUCKET });
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.eyeGenerator),
-				new Object[] { "#*#", "#&#", "#*#", '#', "blockRedstone", '*', "dustRedstone", '&', Items.ENDER_EYE }));
-		GameRegistry.addRecipe(new ShapedOreRecipe((new ItemStack(BlockLoader.replacementMachine)), new Object[] {
-				"&#&", "#*#", "&#&", '*', "blockRedstone", '#', Items.STONE_PICKAXE, '&', "dustRedstone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.replacementMachineSetter),
-				new Object[] { " * ", "*#*", " * ", '#', Items.PAPER, '*', "dustRedstone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.cobbleStoneMaker), new Object[] { "#$#",
-				"*$&", "#$#", '#', "cobblestone", '*', Items.LAVA_BUCKET, '&', Items.WATER_BUCKET, '$', "stone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.infiniteWater),
-				new Object[] { "###", "#*#", "###", '#', "cobblestone", '*', Items.WATER_BUCKET }));
-		GameRegistry.addRecipe(
-				new ShapedOreRecipe(new ItemStack(BlockLoader.craftingTable), new Object[] { "a#a", "#*#", "a#a", '#',
-						"cobblestone", '*', Item.getItemFromBlock(Blocks.CRAFTING_TABLE), 'a', "plankWood" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemLoader.portableCrafter),
-				new Object[] { new ItemStack(Blocks.CRAFTING_TABLE), "plankWood", "stickWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.xpReservoir), new Object[] { "a#a", "#*#",
-				"a#a", '#', "gemDiamond", '*', Item.getItemFromBlock(BlockLoader.tank), 'a', "ingotGold" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.chunkLoader), new Object[] { "a#a", "#*#",
-				"a#a", '#', "gemDiamond", '*', Item.getItemFromBlock(Blocks.ANVIL), 'a', "ingotGold" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.lavaPump), new Object[] { "a#a", "#*#",
-				"a#a", '#', Items.LAVA_BUCKET, '*', Item.getItemFromBlock(Blocks.IRON_BLOCK), 'a', Items.BUCKET }));
+		GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.forceEnchTableItemBlock), "###", "###", "###", '#',
+				Item.getItemFromBlock(Blocks.ENCHANTING_TABLE));
+		GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.tankItemBlock), "###", "#*#", "###", '#', Item.getItemFromBlock(Blocks.GLASS),
+				'*', Items.BUCKET);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.eyeGenerator), "#*#", "#&#", "#*#", '#',
+				"blockRedstone", '*', "dustRedstone", '&', Items.ENDER_EYE));
+		GameRegistry.addRecipe(new ShapedOreRecipe((new ItemStack(BlockLoader.replacementMachine)), "&#&", "#*#", "&#&",
+				'*', "blockRedstone", '#', Items.STONE_PICKAXE, '&', "dustRedstone"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.replacementMachineSetter), " * ", "*#*",
+				" * ", '#', Items.PAPER, '*', "dustRedstone"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.cobbleStoneMaker), "#$#", "*$&", "#$#", '#',
+				"cobblestone", '*', Items.LAVA_BUCKET, '&', Items.WATER_BUCKET, '$', "stone"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.infiniteWater), "###", "#*#", "###", '#',
+				"cobblestone", '*', Items.WATER_BUCKET));
+		//TODO 试图修复自动合成
+		/*GameRegistry.addRecipe(
+				new ShapedOreRecipe(new ItemStack(BlockLoader.craftingTable), "a#a", "#*#", "a#a", '#', "cobblestone",
+						'*', Item.getItemFromBlock(Blocks.CRAFTING_TABLE), 'a', "plankWood"));*/
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemLoader.portableCrafter), new ItemStack(Blocks.CRAFTING_TABLE),
+				"plankWood", "stickWood"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.xpReservoir), "a#a", "#*#", "a#a", '#',
+				"gemDiamond", '*', Item.getItemFromBlock(BlockLoader.tank), 'a', "ingotGold"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.chunkLoader), "a#a", "#*#", "a#a", '#',
+				"gemDiamond", '*', Item.getItemFromBlock(Blocks.ANVIL), 'a', "ingotGold"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.lavaPump), "a#a", "#*#", "a#a", '#', Items.LAVA_BUCKET,
+				'*', Item.getItemFromBlock(Blocks.IRON_BLOCK), 'a', Items.BUCKET));
 		for (int i = 0; i < 16; i++)
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemLoader.garbagebag),
 					new ItemStack(ItemLoader.portableInventoryItem, 1, i), "cobblestone"));
 		if (OreDictionary.doesOreNameExist("listAllseed"))
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.greenHouse),
-					new Object[] { "###", "#*#", "###", '#', "listAllseed", '*', Item.getItemFromBlock(Blocks.DIRT) }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.greenHouse), "###", "#*#", "###", '#',
+					"listAllseed", '*', Item.getItemFromBlock(Blocks.DIRT)));
 		else
-			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.greenHouse), new Object[] { "###", "#*#", "###", '#',
-					Items.WHEAT_SEEDS, '*', Item.getItemFromBlock(Blocks.DIRT) });
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.multiplePickaxes0),
-				new Object[] { "###", "#*#", "###", '*', Items.STONE_PICKAXE, '#', "cobblestone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.multiplePickaxes1),
-				new Object[] { "###", "#*#", "###", '*', Items.IRON_PICKAXE, '#', "ingotIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.multiplePickaxes2),
-				new Object[] { "###", "#*#", "###", '*', Items.GOLDEN_PICKAXE, '#', "ingotGold" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.infiniteFuel),
-				new Object[] { "###", "#*#", "###", '*', "blockCoal", '#', "gemDiamond" }));
-		GameRegistry.addRecipe(new ShapedOreRecipeNoReturn(new ItemStack(BlockLoader.fastFurnace),
-			new Object[] { "###", "#*#", "###", '*', ItemLoader.infiniteFuel, '#', "blockCoal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.mobSummon),
-				new Object[] { "###", "#*#", "###", '*', "blockDiamond", '#', Blocks.MOB_SPAWNER }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.DRAGON_EGG),
-				new Object[] { " # ", "#*#", " # ", '*', Items.EGG, '#', Items.NETHER_STAR }));
+			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.greenHouse), "###", "#*#", "###", '#', Items.WHEAT_SEEDS,
+					'*', Item.getItemFromBlock(Blocks.DIRT));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.multiplePickaxes0), "###", "#*#", "###", '*',
+				Items.STONE_PICKAXE, '#', "cobblestone"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.multiplePickaxes1), "###", "#*#", "###", '*',
+				Items.IRON_PICKAXE, '#', "ingotIron"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.multiplePickaxes2), "###", "#*#", "###", '*',
+				Items.GOLDEN_PICKAXE, '#', "ingotGold"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.infiniteFuel), "###", "#*#", "###", '*',
+				"blockCoal", '#', "gemDiamond"));
+		GameRegistry.addRecipe(new ShapedOreRecipeNoReturn(new ItemStack(BlockLoader.fastFurnace), "###", "#*#", "###",
+				'*', ItemLoader.infiniteFuel, '#', "blockCoal"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.mobSummon), "###", "#*#", "###", '*',
+				"blockDiamond", '#', Blocks.MOB_SPAWNER));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.DRAGON_EGG), " # ", "#*#", " # ", '*', Items.EGG,
+				'#', Items.NETHER_STAR));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.wrench), "s s", "sis", " s ", 's', "stickWood", 'i', "ingotIron"));
 	}
 
 	private static void registerSmelting()

@@ -46,39 +46,39 @@ public class BlockLoader
 	public BlockLoader(FMLPreInitializationEvent event)
 	{
 		registerBlock(removeEnchantment);
-		registerItem(removeEnchantmentItemBlock, removeEnchantment);
+		registerItem(removeEnchantmentItemBlock);
 		registerBlock(copyEnchantment);
-		registerItem(copyEnchantmentItemBlock, copyEnchantment);
+		registerItem(copyEnchantmentItemBlock);
 		registerBlock(reinforcementMachine);
-		registerItem(reinforcementMachineItemBlock, reinforcementMachine);
+		registerItem(reinforcementMachineItemBlock);
 		registerBlock(forceEnchTable);
-		registerItem(forceEnchTableItemBlock, forceEnchTable);
+		registerItem(forceEnchTableItemBlock);
 		registerBlock(tank);
-		registerItem(tankItemBlock, tank);
+		registerItem(tankItemBlock);
 		registerBlock(eyeGenerator);
-		registerItem(eyeGeneratorItemBlock, eyeGenerator);
+		registerItem(eyeGeneratorItemBlock);
 		registerBlock(replacementMachine);
-		registerItem(replacementMachineItemBlock, replacementMachine);
+		registerItem(replacementMachineItemBlock);
 		registerBlock(cobbleStoneMaker);
-		registerItem(cobbleStoneMakerItemBlock, cobbleStoneMaker);
+		registerItem(cobbleStoneMakerItemBlock);
 		registerBlock(infiniteWater);
-		registerItem(infiniteWaterItemBlock, infiniteWater);
+		registerItem(infiniteWaterItemBlock);
 		registerBlock(craftingTable);
-		registerItem(craftingTableItemBlock, craftingTable);
+		registerItem(craftingTableItemBlock);
 		registerBlock(chunkLoader);
-		registerItem(chunkLoaderItemBlock, chunkLoader);
+		registerItem(chunkLoaderItemBlock);
 		registerBlock(lavaPump);
-		registerItem(lavaPumpItemBlock, lavaPump);
+		registerItem(lavaPumpItemBlock);
 		registerBlock(xpReservoir);
-		registerItem(xpReservoirItemBlock, xpReservoir);
+		registerItem(xpReservoirItemBlock);
 		registerBlock(greenHouse);
-		registerItem(greenHouseItemBlock, greenHouse);
+		registerItem(greenHouseItemBlock);
 		registerBlock(fastFurnace);
-		registerItem(fastFurnaceItemBlock, fastFurnace);
+		registerItem(fastFurnaceItemBlock);
 		registerBlock(mobSummon);
-		registerItem(mobSummonItemBlock, mobSummon);
+		registerItem(mobSummonItemBlock);
 		registerBlock(energyBlock);
-		registerItem(energyItemBlock, energyBlock);
+		registerItem(energyItemBlock);
 	}
 
 	private static void registerBlock(Block block)
@@ -86,9 +86,8 @@ public class BlockLoader
 		GameRegistry.register(block);
 	}
 
-	private static void registerItem(ItemBlock item, Block block)
+	private static void registerItem(ItemBlock item)
 	{
-		item.setRegistryName(block.getRegistryName());
 		GameRegistry.register(item);
 	}
 }

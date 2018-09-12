@@ -1,9 +1,11 @@
 package com.bxzmod.someusefulthings.tileentity;
 
+import com.bxzmod.someusefulthings.Helper;
 import com.bxzmod.someusefulthings.IConfigSide;
 import com.bxzmod.someusefulthings.ItemStackHandlerModify;
 import com.bxzmod.someusefulthings.blocks.property.EnumIO;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -15,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class TileEntityBase extends TileEntity implements IConfigSide, ITickable
@@ -28,7 +31,7 @@ public abstract class TileEntityBase extends TileEntity implements IConfigSide, 
 		super();
 		this.iInventory = iInventory;
 		this.configSide = configSide;
-		this.iInventory.setConfigSide(this.configSide);
+		this.iInventory.setConfigSide(configSide);
 	}
 
 	@Override
@@ -161,11 +164,13 @@ public abstract class TileEntityBase extends TileEntity implements IConfigSide, 
 	public void setDataFromNBT(NBTTagCompound compound)
 	{
 		this.iInventory.deserializeNBT(compound.getCompoundTag("iInventory"));
+		this.getConfigFromNBT(compound);
 	}
 
 	public NBTTagCompound setNBTFromData(NBTTagCompound compound)
 	{
 		compound.setTag("iInventory", this.iInventory.serializeNBT());
+		this.getNBTFromConfig(compound);
 		return compound;
 	}
 
@@ -190,6 +195,24 @@ public abstract class TileEntityBase extends TileEntity implements IConfigSide, 
 	public EnumFacing rotateY()
 	{
 		return this.configSide.rotateY();
+	}
+
+	protected void innerInsert(@Nonnull ItemStack stack, int startIndex, int endIndex, boolean simulate)
+	{
+		int size = stack.stackSize;
+		for (; size > 0 && startIndex < endIndex; startIndex++)
+		{
+			ItemStack temp = this.iInventory.addStackInSlot(startIndex, Helper.copyStack(stack), simulate);
+			if (temp != null)
+			{
+				if (temp.stackSize < stack.stackSize)
+					size = temp.stackSize;
+			} else
+				size = 0;
+
+		}
+		if (!simulate)
+			stack.stackSize = size;
 	}
 
 }

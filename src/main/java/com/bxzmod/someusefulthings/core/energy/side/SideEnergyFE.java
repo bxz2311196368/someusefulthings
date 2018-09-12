@@ -1,7 +1,6 @@
 package com.bxzmod.someusefulthings.core.energy.side;
 
 import com.bxzmod.someusefulthings.core.energy.EnergyFECommon;
-
 import net.minecraftforge.energy.IEnergyStorage;
 
 public class SideEnergyFE implements IEnergyStorage

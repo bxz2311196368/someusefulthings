@@ -1,11 +1,5 @@
 package com.bxzmod.someusefulthings.tileentity;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
 import com.bxzmod.someusefulthings.Helper;
 import com.bxzmod.someusefulthings.network.MultiSignSync;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
@@ -15,7 +9,6 @@ import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,10 +17,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class MobSummonTileEntity extends TileEntity implements ITickable
 {
@@ -218,17 +216,12 @@ public class MobSummonTileEntity extends TileEntity implements ITickable
 		return selectEntity;
 	}
 
-	public BlockPos getPos()
-	{
-		return this.pos;
-	}
-
 	public void setSelectEntity(String selectEntity)
 	{
 		this.selectEntity = selectEntity;
 	}
 
-	public static List getEntitys()
+	public static List<String> getEntitys()
 	{
 		return Entitys;
 	}

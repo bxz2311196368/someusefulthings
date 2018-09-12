@@ -1,6 +1,6 @@
 package com.bxzmod.someusefulthings.blocks;
 
-import com.bxzmod.someusefulthings.blocks.Model.BXZModelLoader;
+import com.bxzmod.someusefulthings.blocks.model.BXZModelLoader;
 import com.bxzmod.someusefulthings.blocks.property.BlockPropertys;
 import com.bxzmod.someusefulthings.tileentity.TileEntityBase;
 import net.minecraft.block.properties.IProperty;

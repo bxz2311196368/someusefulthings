@@ -46,32 +46,52 @@ public class CraftingTableContainer extends AbstractContainer
 		for (int i = 0; i < 2; ++i)
 			for (int j = 0; j < 9; ++j)
 				this.addSlotToContainer(
-					new SlotItemHandlerHelper(this.craftingTableTileEntity.getiInventory(), j + i * 9, 8 + j * 18,
-						84 + i * 18));
+						new SlotItemHandlerHelper(this.craftingTableTileEntity.getiInventory(), j + i * 9, 8 + j * 18,
+								84 + i * 18));
 	}
 
 	@Nullable
 	@Override
 	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player)
 	{
+		if (slotId < 0 || slotId >= this.inventorySlots.size())
+			return null;
 		Slot slot = this.getSlot(slotId);
 		if (slot instanceof SlotUnpickable)
 		{
-			slot.putStack(Helper.copyStack(player.inventory.getItemStack()));
+			slot.putStack(Helper.copyStack(player.inventory.getItemStack(), 1));
 			return null;
 		}
 		if (slot instanceof SlotCraftingTweak)
 		{
-			if (!this.craftingTableTileEntity.canTakeCraftResult())
+			if (!this.craftingTableTileEntity.tryTakeCraftResult(true))
 				return null;
 		}
 		return super.slotClick(slotId, dragType, clickTypeIn, player);
 	}
 
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
+	{
+		Slot slot = this.getSlot(index);
+		if (slot instanceof SlotCraftingTweak)
+		{
+			int i = 0;
+			for (; this.getTe().tryTakeCraftResult(true) && this
+					.mergeItemStack(Helper.copyStack(this.craftResult.stackResult[0]), 0, 36, true); i++)
+			{
+				this.getTe().tryTakeCraftResult(false);
+				this.getTe().trySendRemainItemToPlayer(playerIn);
+			}
+			return null;
+		}
+		return super.transferStackInSlot(playerIn, index);
+	}
+
 	public void onCraftMatrixChanged(IInventory inventoryIn)
 	{
 		this.craftResult.setInventorySlotContents(0,
-			CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
+				CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
 			this.getTe().setRecipe();

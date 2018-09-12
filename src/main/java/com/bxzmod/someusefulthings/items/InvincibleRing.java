@@ -4,7 +4,6 @@ import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.cap.IBaublesItemHandler;
-
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;

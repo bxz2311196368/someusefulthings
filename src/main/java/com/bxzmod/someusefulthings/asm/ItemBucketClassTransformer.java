@@ -17,9 +17,11 @@ public class ItemBucketClassTransformer implements IClassTransformer
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] classBeingTransformed)
 	{
-		boolean isObfuscated = !name.equals(transformedName);
+		//TODO here
+		/*boolean isObfuscated = !name.equals(transformedName);
 		int index = Arrays.asList(classesBeingTransformed).indexOf(transformedName);
-		return index != -1 ? transform(index, classBeingTransformed, isObfuscated) : classBeingTransformed;
+		return index != -1 ? transform(index, classBeingTransformed, isObfuscated) : classBeingTransformed;*/
+		return classBeingTransformed;
 	}
 
 	private static byte[] transform(int index, byte[] classBeingTransformed, boolean isObfuscated)

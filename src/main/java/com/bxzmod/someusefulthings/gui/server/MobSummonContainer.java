@@ -1,18 +1,16 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.tileentity.MobSummonTileEntity;
-
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 
-public class MobSummonContainer extends Container
+public class MobSummonContainer extends AbstractContainer
 {
 	private EntityPlayer player;
 	private MobSummonTileEntity te;
 
 	public MobSummonContainer(EntityPlayer player, MobSummonTileEntity te)
 	{
-		super();
+		super(te);
 		this.player = player;
 		this.te = te;
 	}
@@ -28,7 +26,7 @@ public class MobSummonContainer extends Container
 		return player;
 	}
 
-	public MobSummonTileEntity getTe()
+	public MobSummonTileEntity getBasicTe()
 	{
 		return te;
 	}

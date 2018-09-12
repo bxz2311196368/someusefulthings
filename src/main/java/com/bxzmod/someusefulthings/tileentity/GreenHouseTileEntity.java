@@ -1,64 +1,62 @@
 package com.bxzmod.someusefulthings.tileentity;
 
-import com.bxzmod.someusefulthings.*;
+import com.bxzmod.someusefulthings.DefaultSide;
+import com.bxzmod.someusefulthings.Helper;
+import com.bxzmod.someusefulthings.ItemStackHandlerModify;
+import com.bxzmod.someusefulthings.SpecialCrops;
 import com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin;
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.BlockStem;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
-public class GreenHouseTileEntity extends TileEntity implements ITickable
+public class GreenHouseTileEntity extends TileEntityBase
 {
 	private boolean work = true;
-
-	ItemStackHandlerModify inv = new ItemStackHandlerModify(1, 9)
-			.setSlotChecker(0,
-					stack -> stack.getItem() instanceof ItemSeeds || stack.getItem() instanceof ItemSeedFood
-							|| SpecialCrops.Crops.containsKey(Helper.copyStack(stack, 1).serializeNBT().toString()))
-			.getInventory();
-
 	private boolean noSeed = false, noS_Crop = false, no_crop = false;
 	private boolean isdeobf = BXZFMLLoadingPlugin.deobf;
 	private int workType = 0;
+	private static Map<BlockCrops, ItemCropSeed> cache = Maps.newHashMap();
+
+	public GreenHouseTileEntity()
+	{
+		super(new ItemStackHandlerModify(1, 9).setSlotChecker(0,
+			stack -> stack.getItem() instanceof ItemSeeds || stack.getItem() instanceof ItemSeedFood
+				|| SpecialCrops.Crops.containsKey(Helper.copyStack(stack, 1).serializeNBT().toString())).getInventory(),
+			new DefaultSide());
+	}
 
 	@Override
-	public void update()
+	public void work()
 	{
-		if (world.isRemote)
-			return;
 		if (!work)
 			return;
-		ItemStack input = inv.getStackInSlot(0);
+		ItemStack input = iInventory.getStackInSlot(0);
 		if (input != null)
 		{
 			BlockCrops crops = null;
 			BlockStem stem = null;
-			String temp = Helper.copyStack(inv.getStackInSlot(0), 1).serializeNBT().toString();
+			String temp = Helper.copyStack(iInventory.getStackInSlot(0), 1).serializeNBT().toString();
 			if (SpecialCrops.Crops.containsKey(temp))
 			{
 				SpecialCrops special_crop = SpecialCrops.Crops.get(temp);
 				if (!no_crop)
-					Helper.mergeItemStack(Helper.copyStack(special_crop.getCrop(), 8), 0, 9, false, this.inv);
+					this.innerInsert(Helper.copyStack(special_crop.getCrop(), 8), 1, 10, false);
 				if (!noS_Crop)
-					Helper.mergeItemStack(Helper.copyStack(special_crop.getS_crop()), 0, 9, false, this.inv);
+					this.innerInsert(Helper.copyStack(special_crop.getS_crop()), 1, 10, false);
 				if (!noSeed)
-					Helper.mergeItemStack(Helper.copyStack(special_crop.getSeed(), 1), 0, 9, false, this.inv);
+					this.innerInsert(Helper.copyStack(special_crop.getSeed(), 1), 1, 10, false);
 			} else
 			{
 				if (input.getItem() instanceof ItemSeeds)
@@ -93,33 +91,42 @@ public class GreenHouseTileEntity extends TileEntity implements ITickable
 					this.output(stem);
 			}
 		}
-		this.inv.tryInAndOut(world, pos);
-		this.markDirty();
 	}
 
 	private void output(BlockCrops crops)
 	{
-		try
+		Item crop, seed;
+		if (cache.containsKey(crops))
 		{
-			Method m_getCrop = BlockCrops.class.getDeclaredMethod(isdeobf ? "getCrop" : "func_149865_P"),
-					m_getSeed = BlockCrops.class.getDeclaredMethod(isdeobf ? "getSeed" : "func_149866_i");
-			m_getCrop.setAccessible(true);
-			m_getSeed.setAccessible(true);
-			Item crop = (Item) m_getCrop.invoke(crops), seed = (Item) m_getSeed.invoke(crops);
-			if (!no_crop)
-				Helper.mergeItemStack(new ItemStack(crop, 8), 0, 9, false, this.inv);
-			if (!noSeed)
+			ItemCropSeed cropSeed = cache.get(crops);
+			crop = cropSeed.getCrop();
+			seed = cropSeed.getSeed();
+		} else
+		{
+			try
 			{
-				if (Helper.isSameStackIgnoreAmount(new ItemStack(seed), inv.getStackInSlot(0)))
-					Helper.mergeItemStack(Helper.copyStack(inv.getStackInSlot(0), 1), 0, 9, false, this.inv);
-				else
-					Helper.mergeItemStack(new ItemStack(seed, 1), 0, 9, false, this.inv);
+				Method m_getCrop = BlockCrops.class
+					.getDeclaredMethod(isdeobf ? "getCrop" : "func_149865_P"), m_getSeed = BlockCrops.class
+					.getDeclaredMethod(isdeobf ? "getSeed" : "func_149866_i");
+				m_getCrop.setAccessible(true);
+				m_getSeed.setAccessible(true);
+				crop = (Item) m_getCrop.invoke(crops);
+				seed = (Item) m_getSeed.invoke(crops);
+				cache.put(crops, new ItemCropSeed(crop, seed));
+			} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			{
+				e.printStackTrace();
+				return;
 			}
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e)
+		}
+		if (!no_crop)
+			this.innerInsert(new ItemStack(crop, 8), 1, 10, false);
+		if (!noSeed)
 		{
-			e.printStackTrace();
-			return;
+			if (Helper.isSameStackIgnoreAmount(new ItemStack(seed), iInventory.getStackInSlot(0)))
+				this.innerInsert(Helper.copyStack(iInventory.getStackInSlot(0), 1), 1, 10, false);
+			else
+				this.innerInsert(new ItemStack(seed, 1), 1, 10, false);
 		}
 	}
 
@@ -127,54 +134,14 @@ public class GreenHouseTileEntity extends TileEntity implements ITickable
 	{
 		Block crop = stem.crop;
 		if (!no_crop)
-			Helper.mergeItemStack(new ItemStack(crop, 4), 0, 9, false, this.inv);
+			this.innerInsert(new ItemStack(crop, 4), 1, 10, false);
 		if (!noSeed)
-			Helper.mergeItemStack(Helper.copyStack(inv.getStackInSlot(0), 1), 0, 9, false, this.inv);
-	}
-
-	private IBlockState getSoilState(Block blockIn)
-	{
-		if (blockIn == null)
-			return Blocks.AIR.getDefaultState();
-		if (blockIn == Blocks.FARMLAND)
-			return blockIn.getDefaultState().withProperty(BlockFarmland.MOISTURE, Integer.valueOf(7));
-		return blockIn.getDefaultState();
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
-	{
-		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
-		{
-			return true;
-		}
-		return super.hasCapability(capability, facing);
-	}
-
-	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
-	{
-		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
-			return (T) this.inv;
-		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound compound)
-	{
-		super.readFromNBT(compound);
-		this.setDataFromNBT(compound);
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
-	{
-		return this.setNBTFromData(super.writeToNBT(compound));
+			this.innerInsert(Helper.copyStack(iInventory.getStackInSlot(0), 1), 1, 10, false);
 	}
 
 	public void setDataFromNBT(NBTTagCompound compound)
 	{
-		this.inv.deserializeNBT(compound.getCompoundTag("Inventory"));
+		super.setDataFromNBT(compound);
 		this.work = compound.getBoolean("Work");
 		this.workType = compound.getInteger("workType");
 		this.setWorkType(this.workType);
@@ -182,7 +149,7 @@ public class GreenHouseTileEntity extends TileEntity implements ITickable
 
 	public NBTTagCompound setNBTFromData(NBTTagCompound compound)
 	{
-		compound.setTag("Inventory", inv.serializeNBT());
+		super.setNBTFromData(compound);
 		compound.setBoolean("Work", this.work);
 		compound.setInteger("workType", this.workType);
 		return compound;
@@ -234,8 +201,24 @@ public class GreenHouseTileEntity extends TileEntity implements ITickable
 		this.work = work;
 	}
 
-	public ItemStackHandlerModify getInv()
+	private static class ItemCropSeed
 	{
-		return inv;
+		private Item crop, seed;
+
+		public ItemCropSeed(Item crop, Item seed)
+		{
+			this.crop = crop;
+			this.seed = seed;
+		}
+
+		public Item getCrop()
+		{
+			return crop;
+		}
+
+		public Item getSeed()
+		{
+			return seed;
+		}
 	}
 }

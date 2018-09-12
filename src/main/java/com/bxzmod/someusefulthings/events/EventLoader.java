@@ -62,7 +62,7 @@ import java.util.HashSet;
 
 public class EventLoader
 {
-	Item ring = ItemLoader.invinciblering;
+	private Item ring = ItemLoader.invinciblering;
 
 	public EventLoader(FMLInitializationEvent event)
 	{
@@ -72,31 +72,21 @@ public class EventLoader
 	@SubscribeEvent
 	public void onGetHurt(LivingHurtEvent event)
 	{
-
-		if (!(event.getEntity() instanceof EntityPlayer))
-			return;
-		else
+		if ((event.getEntity() instanceof EntityPlayer))
 		{
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-			if ((baubles.getStackInSlot(1) != null && baubles.getStackInSlot(1).getItem() == ring)
-					|| (baubles.getStackInSlot(2) != null && baubles.getStackInSlot(2).getItem() == ring))
+			if (this.isPlayerInvincible(player))
 				event.setCanceled(true);
 		}
-
 	}
 
 	@SubscribeEvent
 	public void onAttacked(LivingAttackEvent event)
 	{
-		if (!(event.getEntity() instanceof EntityPlayer))
-			return;
-		else
+		if ((event.getEntity() instanceof EntityPlayer))
 		{
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-			if ((baubles.getStackInSlot(1) != null && baubles.getStackInSlot(1).getItem() == ring)
-					|| (baubles.getStackInSlot(2) != null && baubles.getStackInSlot(2).getItem() == ring))
+			if (this.isPlayerInvincible(player))
 				event.setCanceled(true);
 		}
 	}
@@ -104,19 +94,19 @@ public class EventLoader
 	@SubscribeEvent
 	public void onDeath(LivingDeathEvent event)
 	{
-		if (!(event.getEntityLiving() instanceof EntityPlayer))
-			return;
-		else
+		if ((event.getEntity() instanceof EntityPlayer))
 		{
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-			if ((baubles.getStackInSlot(1) != null && baubles.getStackInSlot(1).getItem() == ring)
-					|| (baubles.getStackInSlot(2) != null && baubles.getStackInSlot(2).getItem() == ring))
-			{
+			if (this.isPlayerInvincible(player))
 				event.setCanceled(true);
-				player.setHealth(player.getMaxHealth());
-			}
 		}
+	}
+
+	private boolean isPlayerInvincible(EntityPlayer player)
+	{
+		IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+		return (baubles.getStackInSlot(1) != null && baubles.getStackInSlot(1).getItem() == ring) || (
+			baubles.getStackInSlot(2) != null && baubles.getStackInSlot(2).getItem() == ring);
 	}
 
 	@SubscribeEvent
@@ -138,11 +128,11 @@ public class EventLoader
 	{
 		EntityPlayer player = event.getEntityPlayer();
 		player.getCapability(CapabilityLoader.PORTABLE_INVENTORY, null).deserializeNBT(
-				event.getOriginal().getCapability(CapabilityLoader.PORTABLE_INVENTORY, null).serializeNBT());
+			event.getOriginal().getCapability(CapabilityLoader.PORTABLE_INVENTORY, null).serializeNBT());
 		player.getCapability(CapabilityLoader.GARBAGBAG, null)
-				.deserializeNBT(event.getOriginal().getCapability(CapabilityLoader.GARBAGBAG, null).serializeNBT());
+			.deserializeNBT(event.getOriginal().getCapability(CapabilityLoader.GARBAGBAG, null).serializeNBT());
 		player.getCapability(CapabilityLoader.TP_MENU, null)
-				.deserializeNBT(event.getOriginal().getCapability(CapabilityLoader.TP_MENU, null).serializeNBT());
+			.deserializeNBT(event.getOriginal().getCapability(CapabilityLoader.TP_MENU, null).serializeNBT());
 	}
 
 	@SubscribeEvent
@@ -157,8 +147,8 @@ public class EventLoader
 				IPortableInventory cp_backpack = player.getCapability(CapabilityLoader.PORTABLE_INVENTORY, null);
 				IStorage<IPortableInventory> storage_backpack = CapabilityLoader.PORTABLE_INVENTORY.getStorage();
 				message_backpack.nbt = new NBTTagCompound();
-				message_backpack.nbt = (NBTTagCompound) storage_backpack.writeNBT(CapabilityLoader.PORTABLE_INVENTORY,
-						cp_backpack, null);
+				message_backpack.nbt = (NBTTagCompound) storage_backpack
+					.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, cp_backpack, null);
 				NetworkLoader.instance.sendTo(message_backpack, player);
 			}
 			if (player.hasCapability(CapabilityLoader.GARBAGBAG, null))
@@ -167,8 +157,8 @@ public class EventLoader
 				IGarbagBag cp_garbag = player.getCapability(CapabilityLoader.GARBAGBAG, null);
 				IStorage<IGarbagBag> storage_garbag = CapabilityLoader.GARBAGBAG.getStorage();
 				message_garbag.nbt = new NBTTagCompound();
-				message_garbag.nbt = (NBTTagCompound) storage_garbag.writeNBT(CapabilityLoader.GARBAGBAG, cp_garbag,
-						null);
+				message_garbag.nbt = (NBTTagCompound) storage_garbag
+					.writeNBT(CapabilityLoader.GARBAGBAG, cp_garbag, null);
 				NetworkLoader.instance.sendTo(message_garbag, player);
 			}
 			if (player.hasCapability(CapabilityLoader.TP_MENU, null))
@@ -181,13 +171,13 @@ public class EventLoader
 				NetworkLoader.instance.sendTo(message_tp, player);
 			}
 			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-			if ((baubles.getStackInSlot(1) != null && baubles.getStackInSlot(1).getItem() == ring)
-					|| (baubles.getStackInSlot(2) != null && baubles.getStackInSlot(2).getItem() == ring))
+			if ((baubles.getStackInSlot(1) != null && baubles.getStackInSlot(1).getItem() == ring) || (
+				baubles.getStackInSlot(2) != null && baubles.getStackInSlot(2).getItem() == ring))
 			{
 				player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH)
-						.removeModifier(InvincibleRing.max_health);
+					.removeModifier(InvincibleRing.max_health);
 				player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH)
-						.applyModifier(InvincibleRing.max_health);
+					.applyModifier(InvincibleRing.max_health);
 				player.setHealth(player.getHealth() * 0.99F);
 				player.capabilities.allowFlying = true;
 			}
@@ -200,11 +190,11 @@ public class EventLoader
 		ArrayList<ItemStack> item = new ArrayList<ItemStack>();
 		final EntityPlayer player = evt.getEntityPlayer();
 		final ItemStack pickedStack = evt.getItem().getEntityItem();
-		if (player == null || pickedStack == null || !player.hasCapability(CapabilityLoader.GARBAGBAG, null)
-				|| !player.getCapability(CapabilityLoader.GARBAGBAG, null).isEnable())
+		if (player == null || pickedStack == null || !player.hasCapability(CapabilityLoader.GARBAGBAG, null) || !player
+			.getCapability(CapabilityLoader.GARBAGBAG, null).isEnable())
 			return;
 		item = (ArrayList<ItemStack>) Helper
-				.helpGetItemList(player.getCapability(CapabilityLoader.GARBAGBAG, null).getStacks()).clone();
+			.helpGetItemList(player.getCapability(CapabilityLoader.GARBAGBAG, null).getStacks()).clone();
 		if (item.isEmpty())
 			return;
 		for (ItemStack i : item)

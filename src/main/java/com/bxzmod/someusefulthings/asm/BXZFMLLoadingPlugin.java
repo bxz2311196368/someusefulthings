@@ -1,11 +1,11 @@
 package com.bxzmod.someusefulthings.asm;
 
-import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.Mixins;
 
-import java.net.URL;
-import java.security.CodeSource;
+import java.net.URLClassLoader;
 import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion("1.10.2")
@@ -37,10 +37,21 @@ public class BXZFMLLoadingPlugin implements IFMLLoadingPlugin
 	}
 	*/
 
+	static
+	{
+		initMixin();
+	}
+
+	public static void initMixin()
+	{
+		/*System.err.println("start mixin");
+		MixinBootstrap.init();
+		Mixins.addConfiguration("mixins.bxz.json");*/
+	}
+
 	@Override
 	public String[] getASMTransformerClass()
 	{
-
 		return new String[] { "com.bxzmod.someusefulthings.asm.ItemBucketClassTransformer" };
 	}
 
@@ -53,7 +64,6 @@ public class BXZFMLLoadingPlugin implements IFMLLoadingPlugin
 	@Override
 	public String getSetupClass()
 	{
-
 		return null;
 	}
 
@@ -66,7 +76,6 @@ public class BXZFMLLoadingPlugin implements IFMLLoadingPlugin
 	@Override
 	public String getAccessTransformerClass()
 	{
-
 		return null;
 	}
 

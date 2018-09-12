@@ -77,7 +77,7 @@ public class XPReservoirGuiContainer extends BaseGuiContainer
 		{
 			message.nbt.setInteger("Button", button.id);
 			message.nbt.setInteger("Dim", Minecraft.getMinecraft().world.provider.getDimension());
-			message.nbt.setString("BlockPos", this.gui.getTe().getBlockPos().toString());
+			message.nbt.setString("BlockPos", this.gui.getBasicTe().getBlockPos().toString());
 			NetworkLoader.instance.sendToServer(message);
 		}
 		super.actionPerformed(button);

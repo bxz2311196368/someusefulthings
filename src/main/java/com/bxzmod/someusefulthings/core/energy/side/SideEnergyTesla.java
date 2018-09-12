@@ -1,7 +1,6 @@
 package com.bxzmod.someusefulthings.core.energy.side;
 
 import com.bxzmod.someusefulthings.core.energy.EnergyTeslaCommon;
-
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;

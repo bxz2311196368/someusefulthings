@@ -41,7 +41,7 @@ public class CraftingTableGuiContainer extends BaseGuiContainer
 	{
 		super.initGui();
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
-		this.buttonList.add(new GuiButton(BUTTON_ENABLE, offsetX + 63, offsetY + 57, 16, 16, "")
+		this.buttonList.add(new GuiButton(BUTTON_ENABLE, offsetX + 85, offsetY + 57, 16, 16, "")
 		{
 			@Override
 			public void drawButton(Minecraft mc, int mouseX, int mouseY)
@@ -62,7 +62,7 @@ public class CraftingTableGuiContainer extends BaseGuiContainer
 				}
 			}
 		});
-		this.buttonList.add(new GuiButton(BUTTON_OUTPUT, offsetX + 81, offsetY + 57, 16, 16, "")
+		this.buttonList.add(new GuiButton(BUTTON_OUTPUT, offsetX + 103, offsetY + 57, 16, 16, "")
 		{
 			@Override
 			public void drawButton(Minecraft mc, int mouseX, int mouseY)

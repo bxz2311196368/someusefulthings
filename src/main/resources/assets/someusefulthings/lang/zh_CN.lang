@@ -31,6 +31,7 @@ item.multiplePickaxes0.name=石质范围镐
 item.multiplePickaxes1.name=铁质范围镐
 item.multiplePickaxes2.name=金质范围镐
 item.infiniteFuel.name=永恒燃料
+item.wrench.name=设置扳手
 
 //block
 tile.removeEnchantment.name=祛魔器
@@ -114,6 +115,8 @@ command.trade.wrong_6=%s不能与自己交易！
 command.trade.wrong_7=%s别想白嫖！
 command.trade.msg_1=%s已成功交易：%s%s%s你现在持有：%s%s%s对方持有：%s
 command.trade.msg_2=%s你收到了来自%s的投食：%s
+command.greenHouse.useage=%s参数 default 将重置温室的设置为默认%s 参数 reload 将重载温室配置。
+command.greenHouse.wrong=错误的参数！使用Tab补全查看可用参数！
 
 //msg
 limitlessTool.toolmsg_0=%s单方块模式

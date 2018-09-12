@@ -1,9 +1,9 @@
 package com.bxzmod.someusefulthings.gui.client;
 
 import com.bxzmod.someusefulthings.ModInfo;
+import com.bxzmod.someusefulthings.gui.server.AbstractContainer;
 import com.bxzmod.someusefulthings.gui.server.EnergyBlockContainer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 import java.text.DecimalFormat;
@@ -13,7 +13,7 @@ public class EnergyBlockGuiContainer extends BaseGuiContainer
 	private static final String TEXTURE_PATH = ModInfo.MODID + ":" + "textures/gui/container/EnergyBlock.png";
 	private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
 
-	public EnergyBlockGuiContainer(Container inventorySlotsIn)
+	public EnergyBlockGuiContainer(AbstractContainer inventorySlotsIn)
 	{
 		super(inventorySlotsIn, "energyBlock", TEXTURE, 176, 133);
 	}

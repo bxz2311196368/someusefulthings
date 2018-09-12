@@ -1,4 +1,4 @@
-package com.bxzmod.someusefulthings.blocks.Model;
+package com.bxzmod.someusefulthings.blocks.model;
 
 import com.bxzmod.someusefulthings.ModInfo;
 import com.google.common.collect.Lists;

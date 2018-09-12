@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "minVersion": "0.7.5",
+  "package": "com.bxzmod.someusefulthings.mixinhandler",
+  "refmap": "mixins.bxz.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinItemBucketHandler"
+  ]
+}

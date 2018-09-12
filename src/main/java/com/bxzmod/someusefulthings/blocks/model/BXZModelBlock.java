@@ -1,4 +1,4 @@
-package com.bxzmod.someusefulthings.blocks.Model;
+package com.bxzmod.someusefulthings.blocks.model;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;

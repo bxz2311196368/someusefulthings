@@ -21,32 +21,11 @@ public class CapabilityLoader
 	public CapabilityLoader(FMLPreInitializationEvent event)
 	{
 		CapabilityManager.INSTANCE.register(IPortableInventory.class, new PortableInventory.Storage(),
-				new Callable<PortableInventory.Implementation>()
-				{
-					@Override
-					public PortableInventory.Implementation call() throws Exception
-					{
-						return new PortableInventory.Implementation();
-					}
-				});
+				(Callable<PortableInventory.Implementation>) () -> new PortableInventory.Implementation());
 		CapabilityManager.INSTANCE.register(IGarbagBag.class, new GarbagBagCP.Storage(),
-				new Callable<GarbagBagCP.Implementation>()
-				{
-					@Override
-					public GarbagBagCP.Implementation call() throws Exception
-					{
-						return new GarbagBagCP.Implementation();
-					}
-				});
+				(Callable<GarbagBagCP.Implementation>) () -> new GarbagBagCP.Implementation());
 		CapabilityManager.INSTANCE.register(ITPLocation.class, new TPLocation.Storage(),
-				new Callable<TPLocation.Implementation>()
-				{
-					@Override
-					public TPLocation.Implementation call() throws Exception
-					{
-						return new TPLocation.Implementation();
-					}
-				});
+				(Callable<TPLocation.Implementation>) () -> new TPLocation.Implementation());
 	}
 
 }

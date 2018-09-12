@@ -3,13 +3,12 @@ package com.bxzmod.someusefulthings.gui.server;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.tileentity.XPReservoirTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class XPReservoirContainer extends Container
+public class XPReservoirContainer extends AbstractContainer
 {
 	private EntityPlayer player;
 
@@ -19,7 +18,7 @@ public class XPReservoirContainer extends Container
 
 	public XPReservoirContainer(EntityPlayer player, TileEntity te)
 	{
-		super();
+		super(te);
 		this.player = player;
 		if (te instanceof XPReservoirTileEntity)
 			this.te = (XPReservoirTileEntity) te;
@@ -63,7 +62,7 @@ public class XPReservoirContainer extends Container
 		return xp;
 	}
 
-	public XPReservoirTileEntity getTe()
+	public XPReservoirTileEntity getBasicTe()
 	{
 		return te;
 	}

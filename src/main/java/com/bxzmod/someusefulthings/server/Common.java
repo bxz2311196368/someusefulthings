@@ -63,7 +63,7 @@ public class Common
 	{
 		if (!SpecialCrops.configFile.exists())
 		{
-			SpecialCrops.init();
+			SpecialCrops.init_default();
 			SpecialCrops.saveData();
 		} else
 			SpecialCrops.loadData();

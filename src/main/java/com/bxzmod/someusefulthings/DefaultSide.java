@@ -15,7 +15,7 @@ public class DefaultSide implements IConfigSide
 	public DefaultSide()
 	{
 		for (EnumFacing side : EnumFacing.VALUES)
-			this.setSideIO(side, EnumIO.INPUT);
+			this.setSideIO(side, EnumIO.NOT);
 	}
 
 	@Override
@@ -29,14 +29,13 @@ public class DefaultSide implements IConfigSide
 	{
 		EnumFacing realSide = this.getRealSide(side);
 		this.sideIO.put(realSide, io);
-		return this.getSideIO(realSide);
+		return this.getSideIO(side);
 	}
 
 	@Override
 	public EnumIO cycleSideIO(EnumFacing side)
 	{
-		EnumFacing realSide = this.getRealSide(side);
-		return this.setSideIO(realSide, this.getSideIO(realSide).next());
+		return this.setSideIO(side, this.getSideIO(side).next());
 	}
 
 	@Override

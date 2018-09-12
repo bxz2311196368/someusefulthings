@@ -2,7 +2,6 @@ package com.bxzmod.someusefulthings.tileentity;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-
 import com.bxzmod.someusefulthings.Helper;
 import com.bxzmod.someusefulthings.blocks.EyeGenerator;
 import net.minecraft.block.state.IBlockState;
@@ -11,12 +10,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 

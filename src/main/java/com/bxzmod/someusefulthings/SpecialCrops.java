@@ -51,7 +51,7 @@ public class SpecialCrops
 		this(itemStack, itemStack, itemStack);
 	}
 
-	public static void init()
+	public static void init_default()
 	{
 		Crops.put(new ItemStack(Items.POTATO).serializeNBT().toString(),
 				new SpecialCrops(Items.POTATO, Items.POTATO, Items.POISONOUS_POTATO));
@@ -67,6 +67,9 @@ public class SpecialCrops
 		Crops.put(new ItemStack(Blocks.CACTUS).serializeNBT().toString(),
 				new SpecialCrops(new ItemStack(Blocks.CACTUS)));
 		Crops.put(new ItemStack(Items.REEDS).serializeNBT().toString(), new SpecialCrops(new ItemStack(Items.REEDS)));
+		Crops.put(new ItemStack(Blocks.VINE).serializeNBT().toString(), new SpecialCrops(new ItemStack(Blocks.VINE)));
+		Crops.put(new ItemStack(Blocks.WATERLILY).serializeNBT().toString(),
+				new SpecialCrops(new ItemStack(Blocks.WATERLILY)));
 		Crops.put(new ItemStack(Items.DYE, 1, 3).serializeNBT().toString(),
 				new SpecialCrops(new ItemStack(Items.DYE, 1, 3)));
 		if (Loader.isModLoaded("immersiveengineering"))
@@ -87,8 +90,9 @@ public class SpecialCrops
 	private static void ieINIT()
 	{
 		Item seed = IEContent.itemSeeds;
-		Crops.put(new ItemStack(seed).serializeNBT().toString(), new SpecialCrops(new ItemStack(seed),
-				new ItemStack(IEContent.itemMaterial, 1, 4), new ItemStack(IEContent.itemMaterial, 1, 4)));
+		Crops.put(new ItemStack(seed).serializeNBT().toString(),
+				new SpecialCrops(new ItemStack(seed), new ItemStack(IEContent.itemMaterial, 1, 4),
+						new ItemStack(IEContent.itemMaterial, 1, 4)));
 	}
 
 	@Optional.Method(modid = "mysticalagriculture")
@@ -135,7 +139,7 @@ public class SpecialCrops
 	public static void reinit()
 	{
 		Crops.clear();
-		init();
+		init_default();
 		try
 		{
 			saveData();
@@ -170,7 +174,7 @@ public class SpecialCrops
 		} else
 		{
 			Crops.clear();
-			init();
+			init_default();
 			saveData();
 		}
 	}
@@ -216,7 +220,7 @@ public class SpecialCrops
 				{
 					e.printStackTrace();
 					Crops.clear();
-					init();
+					init_default();
 				}
 			}
 		}

@@ -42,7 +42,7 @@ public class ReplacementMachineTileEntity extends TileEntityBase
 			player.sendStatusMessage(new TextComponentTranslation("replacementMachine.msg_6", TextFormatting.RED));
 			return;
 		}
-		if (p != null && posList.size() < 64)
+		if (posList.size() < 64)
 		{
 			for (BlockPos p1 : posList)
 				if (p.equals(p1))
@@ -53,7 +53,7 @@ public class ReplacementMachineTileEntity extends TileEntityBase
 				}
 			posList.add(p);
 			player.sendStatusMessage(new TextComponentTranslation("replacementMachine.msg_8", TextFormatting.GREEN));
-		} else if (posList.size() >= 64)
+		} else
 			player.sendStatusMessage(new TextComponentTranslation("replacementMachine.msg_0", TextFormatting.RED));
 
 	}

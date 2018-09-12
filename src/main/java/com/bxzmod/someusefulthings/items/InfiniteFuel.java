@@ -1,7 +1,6 @@
 package com.bxzmod.someusefulthings.items;
 
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
-
 import net.minecraft.item.Item;
 
 public class InfiniteFuel extends Item

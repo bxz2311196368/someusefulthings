@@ -1,11 +1,10 @@
 package com.bxzmod.someusefulthings.recipes;
 
-import java.util.HashMap;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
+
+import java.util.HashMap;
 
 public class BXZFuelHandler implements IFuelHandler
 {

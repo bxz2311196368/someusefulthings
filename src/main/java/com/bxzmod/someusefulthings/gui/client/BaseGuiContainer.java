@@ -1,19 +1,21 @@
 package com.bxzmod.someusefulthings.gui.client;
 
+import com.bxzmod.someusefulthings.gui.server.AbstractContainer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 public class BaseGuiContainer extends GuiContainer
 {
 	private String tile;
 	private ResourceLocation texture;
+	public AbstractContainer guiServer;
 
-	public BaseGuiContainer(Container inventorySlotsIn, String tile, ResourceLocation texture, int xSize, int ySize)
+	public BaseGuiContainer(AbstractContainer inventorySlotsIn, String tile, ResourceLocation texture, int xSize, int ySize)
 	{
 		super(inventorySlotsIn);
+		this.guiServer =inventorySlotsIn;
 		this.tile = "tile." + tile + ".name";
 		this.texture = texture;
 		this.xSize = xSize;

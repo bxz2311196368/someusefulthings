@@ -16,7 +16,7 @@ public class SlotCraftingTweak extends SlotCrafting
 	public World world;
 
 	public SlotCraftingTweak(EntityPlayer player, InventoryCrafting craftingInventory, IInventory inventoryIn,
-		int slotIndex, int xPosition, int yPosition, CraftingTableContainer gui)
+			int slotIndex, int xPosition, int yPosition, CraftingTableContainer gui)
 	{
 		super(player, craftingInventory, inventoryIn, slotIndex, xPosition, yPosition);
 		this.craftMatrix = craftingInventory;
@@ -29,7 +29,9 @@ public class SlotCraftingTweak extends SlotCrafting
 	{
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
-			this.gui.getTe().doCraft(false);
+			this.gui.getTe().tryTakeCraftResult(false);
+			this.gui.getTe().trySendRemainItemToPlayer(playerIn);
 		}
+		this.putStack(this.gui.getTe().getCraftResult());
 	}
 }

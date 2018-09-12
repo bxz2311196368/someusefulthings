@@ -29,6 +29,7 @@ public class GuiLoader implements IGuiHandler
 	public static final int GUI_M_S = 14;
 	public static final int GUI_E_B = 15;
 	public static final int GUI_P_C = 16;
+	public static final int GUI_TEST = 999;
 
 	public static final int DATA_R_E = 1;
 	public static final int DATA_C_E = 2;
@@ -83,6 +84,8 @@ public class GuiLoader implements IGuiHandler
 			return new EnergyBlockContainer(player, (EnergyBlockTileEntity) world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_P_C:
 			return new ContainerWorkbenchTweak(player.inventory, world, new BlockPos(x, y, z));
+		case GUI_TEST:
+			return new TestContainer();//TODO here remove
 		default:
 			return null;
 		}
@@ -135,6 +138,8 @@ public class GuiLoader implements IGuiHandler
 				new EnergyBlockContainer(player, (EnergyBlockTileEntity) world.getTileEntity(new BlockPos(x, y, z))));
 		case GUI_P_C:
 			return new GuiCraftingTweak(player.inventory, world, new BlockPos(x, y, z));
+		case GUI_TEST:
+			return new TestGuiContainer(new TestContainer());//TODO here remove
 		default:
 			return null;
 		}

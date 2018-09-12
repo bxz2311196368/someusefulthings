@@ -6,6 +6,8 @@ import com.bxzmod.someusefulthings.ItemStackHandlerModify;
 import com.bxzmod.someusefulthings.fakeplayer.FakePlayerLoader;
 import com.bxzmod.someusefulthings.gui.InventoryCraftingTweak;
 import com.google.common.collect.Lists;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -25,7 +27,7 @@ public class CraftingTableTileEntity extends TileEntityBase
 	private InventoryCraftingTweak craft;
 	private EntityPlayer fakePlayer;
 	private CacheRecipe cacheCraft = new CacheRecipe();
-	private boolean stayInSlot = false, auto = false;
+	private boolean stayInSlot = false, auto = false, needInit = true;
 
 	public CraftingTableTileEntity()
 	{
@@ -37,6 +39,8 @@ public class CraftingTableTileEntity extends TileEntityBase
 	{
 		if (this.auto && this.cacheCraft.hasRecipe && this.doCraft(true))
 			this.doCraft(false);
+		if (this.needInit)
+			this.init();
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class CraftingTableTileEntity extends TileEntityBase
 		this.stayInSlot = compound.getBoolean("stayInSlot");
 		this.auto = compound.getBoolean("auto");
 		this.cacheCraft.readFromNBT(compound.getCompoundTag("RecipeStored"));
-		this.init();
+		this.needInit = true;
 	}
 
 	@Override
@@ -64,19 +68,20 @@ public class CraftingTableTileEntity extends TileEntityBase
 			this.initServer();
 		else
 			this.initClient();
+		this.craft = new InventoryCraftingTweak(this.cacheCraft.cache);
+		this.setRecipe();
+		this.needInit = false;
 	}
 
 	private void initServer()
 	{
-		if (this.fakePlayer != null)
+		if (this.fakePlayer == null)
 			this.fakePlayer = FakePlayerLoader.getFakePlayer((WorldServer) this.world);
-		this.craft = new InventoryCraftingTweak(this.cacheCraft.cache);
-		this.setRecipe();
 	}
 
 	private void initClient()
 	{
-
+		this.fakePlayer = Minecraft.getMinecraft().player;
 	}
 
 	private IRecipe findRecipe()
@@ -96,8 +101,8 @@ public class CraftingTableTileEntity extends TileEntityBase
 			return;
 		}
 		this.cacheCraft.hasRecipe = true;
-		for (int i = 0; i < 9; i++)
-			this.cacheCraft.cache[i] = Helper.copyStack(this.iInventory.getStackInSlot(i), 1);
+		/*for (int i = 0; i < 9; i++)
+			this.cacheCraft.cache[i] = Helper.copyStack(this.iInventory.getStackInSlot(i), 1);*/
 		ForgeHooks.setCraftingPlayer(this.fakePlayer);
 		this.cacheCraft.remainItem.clear();
 		try
@@ -116,22 +121,35 @@ public class CraftingTableTileEntity extends TileEntityBase
 		ForgeHooks.setCraftingPlayer(null);
 	}
 
-	public boolean doCraft(boolean simulate)
+	private boolean doCraft(boolean simulate)
 	{
-		if (!this.extractCraftItem(simulate))
-			return false;
-		for (ItemStack stack : this.cacheCraft.remainItem)
-			if (!this.mergeItem(Helper.copyStack(stack), simulate, this.stayInSlot ? 0 : 9, this.stayInSlot ? 9 : 18))
-				return false;
-		return this.mergeItem(Helper.copyStack(this.cacheCraft.craftResult), simulate, 9, 18);
+		return this.doOneTurn(simulate) && this
+				.mergeItem(Helper.copyStack(this.cacheCraft.craftResult), simulate, 9, 18);
+	}
+
+	private boolean doOneTurn(boolean simulate)
+	{
+		return this.extractCraftItem(simulate) && this.insertRemainItem(simulate, this.stayInSlot ? 0 : 9);
 	}
 
 	private boolean extractCraftItem(boolean simulate)
 	{
+		int emptySlot = 0;
 		for (int i = 0; i < 9; i++)
 			if (this.cacheCraft.cache[i] != null)
+			{
 				if (!this.findAndExtract(this.cacheCraft.cache[i], simulate))
 					return false;
+			} else
+				emptySlot++;
+		return emptySlot < 9;
+	}
+
+	private boolean insertRemainItem(boolean simulate, int start)
+	{
+		for (ItemStack stack : this.cacheCraft.remainItem)
+			if (!this.mergeItem(Helper.copyStack(stack), simulate, start, start + 9))
+				return false;
 		return true;
 	}
 
@@ -151,9 +169,9 @@ public class CraftingTableTileEntity extends TileEntityBase
 	{
 		try
 		{
-			for (int i = start; i < end && stack.stackSize > 0; i++)
+			for (int i = start; i < end && stack != null && stack.stackSize > 0; i++)
 				stack = this.iInventory.addStackInSlot(i, stack, simulate);
-			return stack.stackSize <= 0;
+			return stack == null || stack.stackSize <= 0;
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -161,9 +179,26 @@ public class CraftingTableTileEntity extends TileEntityBase
 		return false;
 	}
 
-	public boolean canTakeCraftResult()
+	public boolean tryTakeCraftResult(boolean simulate)
 	{
-		return this.extractCraftItem(true);
+		return this.extractCraftItem(simulate);
+	}
+
+	public void trySendRemainItemToPlayer(EntityPlayer player)
+	{
+		if (this.insertRemainItem(true, 0))
+			this.insertRemainItem(false, 0);
+		else
+			for (ItemStack stack : this.cacheCraft.remainItem)
+			{
+				ItemStack temp = Helper.copyStack(stack);
+				if (!player.inventory.addItemStackToInventory(temp) || (temp != null && temp.stackSize > 0))
+				{
+					EntityItem item = new EntityItem(this.world, player.posX, player.posY, player.posZ, temp);
+					item.setNoPickupDelay();
+					this.world.spawnEntity(item);
+				}
+			}
 	}
 
 	public boolean isStayInSlot()
@@ -191,6 +226,11 @@ public class CraftingTableTileEntity extends TileEntityBase
 		return this.cacheCraft.cache;
 	}
 
+	public ItemStack getCraftResult()
+	{
+		return Helper.copyStack(this.cacheCraft.craftResult);
+	}
+
 	private final class CacheRecipe
 	{
 		ItemStack[] cache = new ItemStack[9];
@@ -205,7 +245,7 @@ public class CraftingTableTileEntity extends TileEntityBase
 				nbt.setTag("recipe", Helper.writeStacksToNBT(this.cache));
 				if (!this.remainItem.isEmpty())
 					nbt.setTag("remainItem",
-						Helper.writeStacksToNBT(this.remainItem.toArray(new ItemStack[this.remainItem.size()])));
+							Helper.writeStacksToNBT(this.remainItem.toArray(new ItemStack[this.remainItem.size()])));
 				nbt.setTag("craftResult", this.craftResult.serializeNBT());
 			}
 			return nbt;
