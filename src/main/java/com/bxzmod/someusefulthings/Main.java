@@ -19,8 +19,17 @@ public class Main
 	@Instance(ModInfo.MODID)
 	public static Main instance;
 
+	public static boolean isDevEnv;
+
 	static
 	{
+		try
+		{
+			isDevEnv = Class.forName("net.minecraft.world.World") != null;
+		} catch (ClassNotFoundException e)
+		{
+			isDevEnv = false;
+		}
 		FluidRegistry.enableUniversalBucket();
 	}
 

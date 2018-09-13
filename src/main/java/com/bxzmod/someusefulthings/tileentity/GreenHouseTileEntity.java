@@ -1,10 +1,6 @@
 package com.bxzmod.someusefulthings.tileentity;
 
-import com.bxzmod.someusefulthings.DefaultSide;
-import com.bxzmod.someusefulthings.Helper;
-import com.bxzmod.someusefulthings.ItemStackHandlerModify;
-import com.bxzmod.someusefulthings.SpecialCrops;
-import com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin;
+import com.bxzmod.someusefulthings.*;
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
@@ -25,7 +21,7 @@ public class GreenHouseTileEntity extends TileEntityBase
 {
 	private boolean work = true;
 	private boolean noSeed = false, noS_Crop = false, no_crop = false;
-	private boolean isdeobf = BXZFMLLoadingPlugin.deobf;
+	private boolean isDevEnv = Main.isDevEnv;
 	private int workType = 0;
 	private static Map<BlockCrops, ItemCropSeed> cache = Maps.newHashMap();
 
@@ -106,8 +102,8 @@ public class GreenHouseTileEntity extends TileEntityBase
 			try
 			{
 				Method m_getCrop = BlockCrops.class
-					.getDeclaredMethod(isdeobf ? "getCrop" : "func_149865_P"), m_getSeed = BlockCrops.class
-					.getDeclaredMethod(isdeobf ? "getSeed" : "func_149866_i");
+					.getDeclaredMethod(isDevEnv ? "getCrop" : "func_149865_P"), m_getSeed = BlockCrops.class
+					.getDeclaredMethod(isDevEnv ? "getSeed" : "func_149866_i");
 				m_getCrop.setAccessible(true);
 				m_getSeed.setAccessible(true);
 				crop = (Item) m_getCrop.invoke(crops);

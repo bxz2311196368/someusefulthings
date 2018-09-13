@@ -125,6 +125,7 @@ dependencies {
 	//deobfCompile "MineTweaker3:MineTweaker3-MC1102-Main:1.10.2-3.0.26.113"
 }
 jar {
+/*
 	from configurations.embed.collect {
         if(it.isDirectory()){
             return it
@@ -138,6 +139,7 @@ jar {
             return tmp
         }
     }
+	*/
 	manifest.attributes(
             "FMLCorePluginContainsFMLMod": "true",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
