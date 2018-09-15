@@ -1,6 +1,7 @@
 package com.bxzmod.someusefulthings;
 
 import com.bxzmod.someusefulthings.server.Common;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -25,11 +26,12 @@ public class Main
 	{
 		try
 		{
-			isDevEnv = Class.forName("net.minecraft.world.World") != null;
-		} catch (ClassNotFoundException e)
+			isDevEnv = World.class.getField("isRemote") != null;
+		} catch (Exception e)
 		{
 			isDevEnv = false;
 		}
+		Helper.LOGGER.warn(isDevEnv? "处于开发环境":"处于运行环境");
 		FluidRegistry.enableUniversalBucket();
 	}
 

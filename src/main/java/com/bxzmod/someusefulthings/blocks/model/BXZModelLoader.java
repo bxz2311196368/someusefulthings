@@ -1,5 +1,6 @@
 package com.bxzmod.someusefulthings.blocks.model;
 
+import com.bxzmod.someusefulthings.Main;
 import com.bxzmod.someusefulthings.ModInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -128,7 +129,7 @@ public class BXZModelLoader implements ICustomModelLoader
 					field.setAccessible(true);
 					field1.setAccessible(true);
 					loader = (ModelLoader) field.get(field1.get(null));
-					method = ModelLoader.class.getDeclaredMethod("getModelBlockDefinition", ResourceLocation.class);
+					method = ModelLoader.class.getDeclaredMethod(Main.isDevEnv?"getModelBlockDefinition": "func_177586_a", ResourceLocation.class);
 					method.setAccessible(true);
 				}
 			}

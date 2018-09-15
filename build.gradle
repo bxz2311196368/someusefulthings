@@ -96,8 +96,8 @@ minecraft {
 }
 
 dependencies {
-	compile('org.spongepowered:mixin:0.7.5-SNAPSHOT')
-	embed('org.spongepowered:mixin:0.7.5-SNAPSHOT'){
+	compile('org.spongepowered:mixin:0.7.11-SNAPSHOT')
+	embed('org.spongepowered:mixin:0.7.11-SNAPSHOT'){
             exclude module: 'launchwrapper'
         }
     //compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -125,7 +125,6 @@ dependencies {
 	//deobfCompile "MineTweaker3:MineTweaker3-MC1102-Main:1.10.2-3.0.26.113"
 }
 jar {
-/*
 	from configurations.embed.collect {
         if(it.isDirectory()){
             return it
@@ -139,12 +138,11 @@ jar {
             return tmp
         }
     }
-	*/
 	manifest.attributes(
             "FMLCorePluginContainsFMLMod": "true",
-            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+            "TweakClass": "com.bxzmod.someusefulthings.tweaker.ServerOptionTweaker",
             "MixinConfigs": "mixins.bxz.json",
-            //"FMLCorePlugin": "com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin",
+            "FMLCorePlugin": "com.bxzmod.someusefulthings.asm.BXZFMLLoadingPlugin",
             "ForceLoadAsMod": "true",
             "FMLAT": "someusefulthings_at.cfg",
 			"TweakOrder": "0"
@@ -179,6 +177,11 @@ task sourcesJar(type: Jar) {
 	classifier = 'sources'
 	from sourceSets.main.allJava
 	appendix = 'source'
+}
+
+//指定编译的编码
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
 }
  
 artifacts {

@@ -21,6 +21,11 @@ public abstract class MixinItemBucketHandler extends Item
 	@Inject(method = "onItemRightClick", at = @At(value = "RETURN", ordinal = 9), cancellable = true)
 	protected void onItemBucketFullRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> ci)
 	{
+		if (player.capabilities.isCreativeMode)
+		{
+			ci.setReturnValue(new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack));
+			return;
+		}
 		if (stack.stackSize == 1)
 			ci.setReturnValue(new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(Items.BUCKET)));
 		else
